@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'RaiseTogether.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django-project",
+        "NAME": "qq",
         "USER": "django",
         "PASSWORD": "7410",
         "HOST": "localhost",
@@ -145,3 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+AUTH_USER_MODEL = 'accounts.MyUser'
