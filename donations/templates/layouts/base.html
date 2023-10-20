@@ -1,0 +1,154 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'base/css/master.css'%}" rel="stylesheet" />
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet" />
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
+    {% block title %}
+    {% endblock %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-3 my-auto btn btn-outline-light" href="#">
+        <i class="fa-solid fa-hand-holding-dollar fs-1 text-light"></i>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto my-auto">
+          <li class="nav-item my-auto ms-2">
+            <a class="nav-link text-center" aria-current="page" href="#">
+              <i class="fa-solid fa-house text-light fs-4"></i>
+              <br><span class="text-light">Home</span>
+            </a>
+          </li>
+          <li class="nav-item my-auto ms-2">
+            <a class="nav-link text-center" href="#">
+              <i class="fa-solid fa-user text-light fs-4"></i>
+              <br><span class="text-light">Profile</span>
+            </a>
+          </li>
+          <li class="nav-item my-auto ms-2">
+            <a class="nav-link text-center" href="#">
+              <i class="fa-solid fa-right-from-bracket text-light fs-4"></i>
+              <br><span class="text-light">Logout</span>
+            </a>
+          </li>
+          <li class="nav-item my-auto ms-2">
+            <a class="nav-link text-center" href="#">
+              <i class="fa-solid fa-right-to-bracket text-light fs-4"></i>
+              <br><span class="text-light">Login</span>
+            </a>
+          </li>
+          <li class="nav-item my-auto ms-2">
+            <a class="nav-link text-center" href="#">
+              <i class="fa-solid fa-registered text-light fs-4"></i>
+              <br><span class="text-light">Register</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown my-auto ms-2">
+            <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-bars text-light fs-3"></i>  
+              <i class="fa-solid fa-caret-down text-light fs-4"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item text-success fw-bold" href="#">my donations</a></li>
+              <li><a class="dropdown-item text-success fw-bold" href="#">my projects</a></li>
+              <li><a class="dropdown-item text-success fw-bold" href="#">my profile</a></li>
+              <li><hr class="dropdown-divider text-success fw-bold"></li>
+              <li><a class="dropdown-item text-success fw-bold" href="#">all projects</a></li>
+            </ul>
+          </li>
+        </ul>
+        <a class="startProject nav-link text-light fs-5 btn btn-outline-light my-auto me-4 px-3 py-1" href="#">
+          start new project
+        </a>
+        <form class="d-flex my-auto">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light text-light" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+          {{ message }}
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% block container %}
+  {% endblock %}
+  <footer class="text-center text-lg-start bg-light text-muted">
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <div>
+      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-facebook"></i></a>
+      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-twitter"></i></a>
+      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-google"></i></a>
+      <a href="" class="me-4 link-secondary"> <i class="fa-brands fa-instagram"></i></a>
+      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-github"></i></a>
+    </div>
+  </section>
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <div class="row mt-3">
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fa-solid fa-hand-holding-dollar text-success fs-1 me-1"></i> Let`s Help Each Other
+          </h6>
+          <p>
+            You can donate through us to projects that you find worthy of your money.
+            You can also create your own projects to collect donations from our customers
+          </p>
+        </div>
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 text-center">
+          <h6 class="text-uppercase fw-bold mb-4">Owners</h6>
+          <div class="row">
+            <div class="col col-6">
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Shehab</a></p>
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Fraag</a></p>
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Mager</a></p>
+            </div>
+            <div class="col col-6">
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Reham</a></p>
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Sara</a></p>
+              <p><a href="#!" class="text-reset"><i class="fa-solid fa-user text-secondary"></i>Sarah</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 text-center">
+          <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
+          <p><a href="#!" class="text-reset btn btn-outline-dark w-50">Home</a></p>
+          <p><a href="#!" class="text-reset btn btn-outline-dark w-50">Help</a></p>
+          <p><a href="#!" class="text-reset btn btn-outline-dark w-50">Donate</a></p>
+          <p><a href="#!" class="text-reset btn btn-outline-dark w-50">Settings</a></p>
+        </div>
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p><i class="fas fa-home me-3 text-secondary"></i> Mansoura, QL 10012, EG</p>
+          <p><i class="fas fa-envelope me-3 text-secondary"></i> django-project@iti.com</p>
+          <p><i class="fas fa-phone me-3 text-secondary"></i> + 01 234 567 88</p>
+          <p><i class="fas fa-print me-3 text-secondary"></i> + 01 234 567 89</p>
+        </div>
+      </div>
+    </div>
+  </section>
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+     © 2021 Copyright:<a class="text-reset fw-bold" href="https://mdbootstrap.com/">campaign.com</a>
+    </div>
+  </footer>
+  <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+  <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
+  <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
+  <script src="{% static 'fontawesomefree/js/brands.js' %}"></script>
+</body>
+</html>
