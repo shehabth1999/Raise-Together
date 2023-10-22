@@ -1,7 +1,0 @@
-:root {
-  --main-color: #198754;
-}
-
-.startProject:hover {
- color: var(--main-color) !important;
-}

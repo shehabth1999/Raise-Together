@@ -2,7 +2,7 @@ from django.db import models
 # from django.contrib.auth.models import User
 from accounts.models import MyUser
 from django.utils import timezone
-# from categories.models import Categoty
+from categories.models import Category
 
 
 
@@ -16,7 +16,7 @@ class Project(models.Model):
     end_time = models.DateTimeField(auto_now=False,default=None)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     current_target = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    # category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
     def __str__(self):
         return self.title
 
