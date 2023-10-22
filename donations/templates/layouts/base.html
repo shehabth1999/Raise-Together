@@ -10,6 +10,8 @@
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet">
     {% block title %}
     {% endblock %}
+    {% block style %}
+    {% endblock %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-success">
@@ -151,5 +153,7 @@
   <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
   <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
   <script src="{% static 'fontawesomefree/js/brands.js' %}"></script>
+  {% block script %}
+  {% endblock %}
 </body>
 </html>
