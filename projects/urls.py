@@ -15,6 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from .views import all_project, upload_multi_picture, project_detail, add_rating
+
 
 urlpatterns = [
+    path("", all_project, name="all_project"),
+    path('project_detail/<int:project_id>/', project_detail, name='project_detail'),
+    path('upload/<int:project_id>/', upload_multi_picture, name='upload_multi_picture'),
+    path('add_rating/<int:project_id>/', add_rating, name='add_rating'),
+
 ]

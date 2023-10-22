@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Detail</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS to set the height of the carousel */
+        .fixed-carousel {
+            height: 300px; /* You can adjust the height as needed */
+            overflow: hidden; /* Hide overflow for images exceeding the container */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="card w-50">
+            <div id="imageCarousel" class="carousel slide fixed-carousel" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100" alt="Project Image">
+                        </div>
+                    {% empty %}
+                        <p>No images available for this project.</p>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" ariahidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title">{{ project.title }}</h1>
+                <p class="card-text">{{ project.details }}</p>
+                <p class="card-text">Total Target: ${{ project.total_target }}</p>
+                <p class="card-text">Current Target: ${{ project.current_target }}</p>
+                <p class="card-text">Start Time: {{ project.start_time }}</p>
+                <p class="card-text">End Time: {{ project.end_time }}</p>
+                <h3>Ratings:</h3>
+                {% for rating in project.rating_set.all %}
+                  {{ rating.user.username }}: {{ rating.rating }}<br>
+                {% empty %}
+                  No ratings yet.
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <a href="{% url 'all_project' %}">Back to all projects</a>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#imageCarousel').carousel();
+        });
+    </script>
+</body>
+</html>

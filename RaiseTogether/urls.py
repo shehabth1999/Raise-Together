@@ -23,7 +23,7 @@ from RaiseTogether.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/',include('accounts.urls')),
+    # path('accounts/',include('accounts.urls')),
     path('categories/',include('categories.urls')),
     path('projects/',include('projects.urls')),
     path('donations/',include('donations.urls')),

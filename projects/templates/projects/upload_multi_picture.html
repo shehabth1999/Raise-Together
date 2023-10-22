@@ -1,0 +1,21 @@
+{% extends "donations/layouts/base.html" %}
+{% load static %}
+
+{% block container %}
+<div class="container my-4">
+    <div class="form">
+        <h1>Upload Pictures for <span class="text-danger">{{ project.title }}</span> </h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+        <a class="btn btn-primary" href="#">Back to Project Details</a>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}
