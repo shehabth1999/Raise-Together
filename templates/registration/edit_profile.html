@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}
+    Edit Account
+{% endblock %}
+<!-- Content -->
+{% block  container %} 
+
+<center><h1>Edit Profile</h1></center>
+
+<form method="POST" enctype="multipart/form-data" class="d-flex flex-column">
+    {% csrf_token %}
+      {{form}}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
