@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 # from django.contrib.auth.models import User
 from accounts.models import MyUser
 from django.utils import timezone
@@ -10,7 +11,7 @@ from django.utils import timezone
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
-    details = models.TextField(max_length=300)
+    details = models.TextField(max_length=300 )
     total_target = models.DecimalField(max_digits=10, decimal_places=2, default=250000)
     start_time = models.DateTimeField(auto_now_add=False,default=timezone.now)
     end_time = models.DateTimeField(auto_now=False,default=None)
@@ -21,7 +22,7 @@ class Project(models.Model):
         return self.title
 
 class Tag(models.Model):
-    name=models.CharField(max_length=100, unique=True, null=True)
+    tag=models.CharField(max_length=100, unique=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tag',null=True)
 
 
@@ -41,3 +42,11 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"{self.project.title}: {self.rating}"
+    
+
+    def get_detail_url(self):
+       return  reverse('project_detail', args=[self.id])
+
+
+    # def get_delete_url(self):
+    #    return  reverse('project.delete', args=[self.id])
