@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import  reverse
 
 # Create your models here.
 class Category(models.Model):
@@ -12,3 +13,6 @@ class Category(models.Model):
   @classmethod
   def get_all_categories(cls):
     return  cls.objects.all()
+  
+  def get_show_url(self):
+    return  reverse('category.detail', args=[self.id])

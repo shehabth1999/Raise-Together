@@ -1,0 +1,42 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} <title>Raise Together</title>{% endblock %}
+{% block container %}
+  <div class="container py-5">
+    <h2>{{category.name}}</h2>
+    <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
+    {% for project in category.projects.all%}
+      <div class="col">
+        <div class="card border-0 shadow-sm bg-light">
+          <!-- Carousel Images -->
+          <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            
+          </div>
+          <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for image in project.images.all %}
+              <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                <img src="{{image.get_image_url}}" class="d-block w-100" alt="..." style="height: 300px;">
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <h5 class="card-title">{{project.title}}</h5>
+            <p class="card-text"><span style="font-weight: bolder;">Finished At: </span><small class="text-body-secondary">{{project.end_time}}</small></p>
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="" class="btn text-success px-0 pb-2"><i class="fa-solid fs-4 fa-hand-holding-dollar"></i></a>
+              {% if user == project.created_by %}
+              <a href="" class="btn text-success px-0 pb-2"><i class="fa-regular fa-pen-to-square  fs-5"></i></a>
+              <a href="" class="btn text-danger px-0 pb-2"><i class="fa-solid fa-trash  fs-5"></i></a>
+              {% endif %}
+              <a href="" class="btn text-success px-0 pb-2"><i class="fa-solid fs-5 fa-circle-info"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}

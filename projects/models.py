@@ -16,7 +16,7 @@ class Project(models.Model):
     end_time = models.DateTimeField(auto_now=False,default=None)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     current_target = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='projects')
     def __str__(self):
         return self.title
 
@@ -32,6 +32,9 @@ class Multi_Picture(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='projects/images/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def get_image_url(self):
+        return f'/media/{self.image}'
 
 
 class Rating(models.Model):

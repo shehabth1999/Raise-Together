@@ -28,7 +28,7 @@
       <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item my-auto ms-2">
-            <a class="nav-link text-center" href="#">
+            <a class="nav-link text-center" href="{% url 'all_project' %}">
               <span class="text-success fw-bold">Explore Projects</span>
             </a>
           </li>
@@ -41,7 +41,7 @@
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item my-auto ms-2">
-            <a class="nav-link fw-bold text-success fs-5" aria-current="page" href="#">
+            <a class="nav-link fw-bold text-success fs-5" aria-current="page" href="{% url 'homepage.index' %}">
               <i class="fa-solid fa-hand-holding-dollar fs-5 text-success"></i> RaiseTogether
             </a>
           </li>
@@ -60,7 +60,7 @@
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item text-success" href="">My Porfile </a>
+                <a class="dropdown-item text-success" href="{% url 'profile' %}">My Porfile </a>
               </li>
               <li>
                 <a class="dropdown-item text-success" href="#">My Donations</a>

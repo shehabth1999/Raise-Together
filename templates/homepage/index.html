@@ -177,10 +177,10 @@
   <!-- End Last 5 Featured Project -->
 
   <!-- Start Categories -->
-  <div class="container-fluid p-5 shadow bg-light">
+  <div class="container-fluid p-5 shadow-sm rounded-3 bg-light">
     <h2 class="mb-4">Our Categories</h2>
     {% for category in  categories %}
-      <a href="" class="btn btn-outline-success mb-3 me-1">
+      <a href="{{category.get_show_url}}" class="btn btn-outline-success mb-3 me-1">
         {{category}}
       </a>
     {% endfor %}
