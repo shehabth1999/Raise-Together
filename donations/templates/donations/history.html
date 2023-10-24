@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} <title>Donations History</title>  {% endblock %}
+{% block container %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Donating date</th>
+        <th scope="col">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for donation in donations %}
+      <tr>
+        <th scope="row">{{donation.id}}</th>
+        <td>{{donation.amount}}</td>
+        <td>{{donation.created_at}}</td>
+        <td>{{donation.project}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
