@@ -2,7 +2,13 @@
 {% load static %}
 
 
+
 {% block container %}
+
+<div class="container text-center d-flex justify-content-center my-2">
+  <a href="{% url 'projects:projects.create'%}" class="btn btn-outline-dark px-5">Add new product </a>
+</div>
+
  {% for project in projects %}
     {% if forloop.counter0|divisibleby:3 %}
     <div class="container my-4">
@@ -13,17 +19,13 @@
         <h1>{{ project.title }}</h1>
         <!-- Bootstrap Carousel Component -->
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="https://www.seedengineering.com/wp-content/uploads/2022/06/IMG-Park-2.png" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/IMG-worlds-of-adventure.webp" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="https://www.seedengineering.com/wp-content/uploads/2022/06/IMG-Park-2.png" class="d-block w-100" alt="...">
-            </div>
-          </div>
+                    {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100" alt="Project Image">
+                        </div>
+                    {% empty %}
+                        <p>No images available for this project.</p>
+                    {% endfor %}
         </div>
         <div class="project-details"><br/><br/>
             <p><strong>Details:</strong></p>
@@ -35,15 +37,15 @@
             <p><strong>Created By:</strong> {{ project.created_by.username }}</p>
             <p>Tags:
             {% for tag in project.tag.all %}
-                <span class="tag">{{ tag.name }}</span>
+                <span class="tag">{{ tag.tag }}</span>
             {% endfor %}
             </p>
         </div>
         <!-- Buttons at the bottom of the card -->
         <div class="card-buttons  my-3">
-            <button class="btn btn-primary">Details</button>
-            <button class="btn btn-secondary">Edit</button>
-            <button class="btn btn-danger">Delete</button>
+            <a href="{% url 'projects:project_detail' project_id=project.id %}" class="btn btn-primary">Details</a>
+            <a href="{% url 'projects:projects.edit' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Edit</a>
+            <a href="{% url 'projects:project.delete' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Delete</a>
         </div>
     </div>
 

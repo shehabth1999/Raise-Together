@@ -1,0 +1,8 @@
+.createProject{
+    color: green;
+    /* font-family: 'Courier New', Courier, monospace; */
+}
+.text{
+    width: max-content;
+    border-radius: 10px;
+}

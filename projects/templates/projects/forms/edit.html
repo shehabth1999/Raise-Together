@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+
+{% block container %}
+<link rel="stylesheet" href="{% static 'projects/css/create.css'%}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css'%}">
+
+    <h1 style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">Edit Project: {{ project.title }}</h1>
+    <!-- <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ images_formset.management_form }}
+        {{ images_formset.as_table }}
+        {{ tags_formset.management_form }}
+        {{ tags_formset.as_table }}
+        <button type="submit">Save Changes</button>
+    </form> -->
+
+    <form method="post" enctype="multipart/form-data" class="createProject container"  style="color: rgb(8, 108, 8); font-family:'Courier New', Courier, monospace; font-weight:600; ">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ images_formset.management_form }}
+        {{ images_formset.as_table }}
+        <div >
+            {{ tags_formset.management_form }}
+            {{ tags_formset.as_table }}
+        </div>
+        <button type="submit" class="btn btn-outline-success text-dark mt-3" >Submit</button>
+    </form>
+
+
+    <script src="{% static  'projects/js/create.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+{% endblock %}

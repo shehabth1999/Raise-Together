@@ -1,5 +1,6 @@
 from django import forms
-from .models import Multi_Picture, Rating
+from .models import Multi_Picture, Project, Tag, ProjectReport
+from django.forms import inlineformset_factory
 
 
 class MultiPictureForm(forms.ModelForm):
@@ -7,7 +8,26 @@ class MultiPictureForm(forms.ModelForm):
         model = Multi_Picture
         fields = ['image']  # You can include other fields if needed
 
-class RatingForm(forms.ModelForm):
+
+MultiPictureFormSet = inlineformset_factory(Project, Multi_Picture, fields=('image',), extra=1)
+TagFormSet = inlineformset_factory(Project, Tag, fields=('tag',), extra=1)
+
+class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Rating
-        fields = ['rating']
+        model = Project
+        fields = ['title', 'details', 'total_target', 'start_time', 'end_time', 'created_by', 'current_target']
+        widgets = {
+            'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+
+
+
+class ProjectReportForm(forms.ModelForm):
+    class Meta:
+        model = ProjectReport
+        fields = ['report_reason']
+        widgets = {
+            'report_reason': forms.Textarea(attrs={'rows': 3}),
+        }

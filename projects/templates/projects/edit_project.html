@@ -1,0 +1,19 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+
+{% block container %}
+
+
+    <h1>Edit Project: {{ project.title }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ images_formset.management_form }}
+        {{ images_formset.as_table }}
+        {{ tags_formset.management_form }}
+        {{ tags_formset.as_table }}
+        <button type="submit">Save Changes</button>
+    </form>
+
+{% endblock %}
