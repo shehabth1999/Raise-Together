@@ -26,30 +26,29 @@
   <nav class="header navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid">
       <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav me-auto">
           <li class="nav-item my-auto ms-2">
             <a class="nav-link text-center" href="{% url 'all_project' %}">
               <span class="text-success fw-bold">Explore Projects</span>
             </a>
           </li>
           <li class="nav-item my-auto ms-2">
-            <form class="d-flex mb-0">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit"><i class="fa-brands fa-searchengin"></i></button>
-            </form>
+            <a class="nav-link text-center" href="{% url 'search_projects' %}">
+              <span class="text-success ms-3" style="font-size: 17px;"><i class="fa-brands fa-searchengin"></i> Search</span>
+            </a>
           </li>
         </ul>
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item my-auto ms-2">
             <a class="nav-link fw-bold text-success fs-5" aria-current="page" href="{% url 'homepage.index' %}">
               <i class="fa-solid fa-hand-holding-dollar fs-5 text-success"></i> RaiseTogether
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav ms-4 mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
           <li class="nav-item my-auto ms-2">
-            <a class="btn btn-outline-success border-0  my-auto me-4 px-3 py-2" href="#">
-              Start New Project
+            <a class="nav-link text-center  my-auto me-4 px-3 py-2" style="font-size: 17px;" href="#">
+              <span class="text-success ms-3" style="font-size: 17px;">Start New Project</span>
             </a>
           </li>
           {% if user.id %}
@@ -159,6 +158,7 @@
      © 2021 Copyright:<a class="text-reset fw-bold" href="https://mdbootstrap.com/">campaign.com</a>
     </div>
   </footer>
+  <script src="{% static  'base/js/script.js' %}"></script>
   <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
   <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
   <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>

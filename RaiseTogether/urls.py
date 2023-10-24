@@ -20,6 +20,7 @@ from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
 from RaiseTogether.views import index
+from RaiseTogether import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('categories/',include('categories.urls')),
     path('projects/',include('projects.urls')),
     path('donations/',include('donations.urls')),
-    path('', index, name="homepage.index")
+    path('', index, name="homepage.index"),
+    path('search/', views.search_projects, name='search_projects'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
