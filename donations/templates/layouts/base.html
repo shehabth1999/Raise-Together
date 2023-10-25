@@ -32,10 +32,17 @@
               <span class="text-success fw-bold">Explore Projects</span>
             </a>
           </li>
-          <li class="nav-item my-auto ms-2">
-            <a class="nav-link text-center" href="{% url 'search_projects' %}">
-              <span class="text-success ms-3" style="font-size: 17px;"><i class="fa-brands fa-searchengin"></i> Search</span>
-            </a>
+          <li class="nav-item my-auto ms-2"> 
+            <form method="get" action="{% url 'search_projects' %}" class="d-flex mb-0" role="search" style="width: 350px;">
+              <div class="input-group">
+                <input type="text" name="search_query" class="form-control me-2" placeholder="Search"  style="border-radius: 17px;">
+                <select name="search_type" class="form-select text-secondary me-2 flex-shrink-1"  style="border-radius: 17px; width: 20px;">
+                  <option value="title">Search By Title</option>
+                  <option value="tag">Search By Tag</option>
+                </select>
+                <button type="submit" class="btn text-success px-2" style="border-radius: 20px;"><i class="fa-brands fa-searchengin fs-5"></i></button>
+              </div>
+            </form>
           </li>
         </ul>
         <ul class="navbar-nav mx-auto">
