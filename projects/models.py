@@ -5,9 +5,6 @@ from django.utils import timezone
 from categories.models import Category
 
 
-
-
-
 class Project(models.Model):
     title = models.CharField(max_length=200)
     details = models.TextField(max_length=300)
@@ -23,7 +20,7 @@ class Project(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
     def __str__(self):
         return self.title
-    
+
     def update_rating(self):
         ratings = self.ratings.all()
         if ratings.exists():
@@ -34,8 +31,8 @@ class Project(models.Model):
         self.save()
 
 class Tag(models.Model):
-    tag=models.CharField(max_length=100, unique=True, null=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tag',null=True)
+    tag=models.CharField(max_length=100, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tags',null=True)
 
 
     def __str__(self):
@@ -72,12 +69,20 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
-    
+
+
+
+
 class Rating(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE ,related_name='ratings')
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+class CommentReport(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE,default=None)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    report_comment = models.TextField()
+
     def __str__(self):
-        return f"{self.project.title}: {self.rating}"
+        return f"Comment Report for {self.comment}"
