@@ -3,7 +3,9 @@ from django.shortcuts import reverse
 from accounts.models import MyUser
 from django.utils import timezone
 from categories.models import Category
-from django.contrib.auth.models import User
+
+
+
 
 
 class Project(models.Model):
@@ -12,11 +14,13 @@ class Project(models.Model):
     total_target = models.DecimalField(max_digits=10, decimal_places=2, default=250000)
     start_time = models.DateTimeField(auto_now_add=False,default=timezone.now)
     end_time = models.DateTimeField(auto_now=False,default=None)
-    created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     current_target = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True)
+    is_featured = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
-
+    created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
     def __str__(self):
         return self.title
     
@@ -42,9 +46,9 @@ class Multi_Picture(models.Model):
     image = models.ImageField(upload_to='projects/images/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
-
-
-
+    def get_image_url(self):
+        return f'/media/{self.image}'
+    
     def get_detail_url(self):
        return  reverse('project_detail', args=[self.id])
 
@@ -74,3 +78,6 @@ class Rating(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE ,related_name='ratings')
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.project.title}: {self.rating}"
