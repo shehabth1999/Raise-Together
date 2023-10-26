@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Project, Multi_Picture, Comment
-from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm
+from .models import Project, Multi_Picture, Comment ,Rating
+from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm ,RatingForm
 
 
 def all_project(request):
@@ -55,7 +55,7 @@ def create_project(request):
             if images_formset.is_valid() and tags_formset.is_valid():
                 images_formset.save()
                 tags_formset.save()
-            return redirect('project_detail', project_id=project.id)
+            return redirect('projects:project_detail', project_id=project.id)
     else:
         form = ProjectForm()
         images_formset = MultiPictureFormSet(prefix='images')
@@ -73,7 +73,7 @@ def editForm(request, project_id):
             if images_formset.is_valid() and tags_formset.is_valid():
                 images_formset.save()
                 tags_formset.save()
-            return redirect('project_detail', project_id=project.id)
+            return redirect('projects:project_detail', project_id=project.id)
     else:
         form = ProjectForm(instance=project)
         images_formset = MultiPictureFormSet(instance=project, prefix='images')
@@ -88,7 +88,7 @@ def deleteProject(request, id):
 
     if request.method == 'POST':
         project.delete()
-        return redirect('all_project')
+        return redirect('projects:all_project')
     return render(request,
                 'projects/forms/delete.html',
                 {'project': project})
@@ -122,3 +122,21 @@ def report_project(request, project_id):
     else:
         form = ProjectReportForm()
     return render(request, 'projects/report_project.html', {'form': form, 'project': project})
+
+def rate_project(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    form = RatingForm()
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating_value = form.cleaned_data['rating']
+
+             # Delete old rating for the same user if it exists
+            Rating.objects.filter(user=request.user, project=project).delete()
+            
+            rating = Rating.objects.create(user=request.user, project=project, rating=rating_value)
+            project.update_rating()  # Custom method in the Project model to update the average rating
+            return redirect('projects:project_detail', project_id=project.id)
+
+    return render(request, 'projects/rate_project.html', {'form': form, 'project': project})
