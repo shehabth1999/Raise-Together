@@ -31,3 +31,6 @@ class ProjectReportForm(forms.ModelForm):
         widgets = {
             'report_reason': forms.Textarea(attrs={'rows': 3}),
         }
+
+class RatingForm(forms.Form):
+    rating = forms.IntegerField(min_value=1, max_value=5)

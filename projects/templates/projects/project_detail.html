@@ -75,12 +75,13 @@
                         <p class="card-text">Current Target: ${{ project.current_target }}</p>
                         <p class="card-text">Start Time: {{ project.start_time }}</p>
                         <p class="card-text"><span class="text-danger">End Time</span>: {{ project.end_time }}</p>
-                        <h3>Ratings:</h3>
+                        <!-- <h3>Ratings:</h3>
                         {% for rating in project.rating_set.all %}
                             {{ rating.user.username }}: {{ rating.rating }}<br>
                         {% empty %}
                             No ratings yet.
-                        {% endfor %}
+                        {% endfor %} -->
+                        <p>Average Rating: {{ project.rating }}</p>
                     </div>
                 </div>
             </div>

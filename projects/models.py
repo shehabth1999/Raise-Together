@@ -3,6 +3,7 @@ from django.shortcuts import reverse
 from accounts.models import MyUser
 from django.utils import timezone
 from categories.models import Category
+from django.contrib.auth.models import User
 
 
 class Project(models.Model):
@@ -14,9 +15,19 @@ class Project(models.Model):
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     current_target = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.title
+    
+    def update_rating(self):
+        ratings = self.ratings.all()
+        if ratings.exists():
+            average_rating = ratings.aggregate(models.Avg('rating'))['rating__avg']
+            self.rating = round(average_rating, 2)
+        else:
+            self.rating = None
+        self.save()
 
 class Tag(models.Model):
     tag=models.CharField(max_length=100, unique=True, null=True)
@@ -38,9 +49,6 @@ class Multi_Picture(models.Model):
        return  reverse('project_detail', args=[self.id])
 
 
-    # def get_delete_url(self):
-    #    return  reverse('project.delete', args=[self.id])
-
 
 
 class Comment(models.Model):
@@ -60,3 +68,9 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
+    
+class Rating(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE ,related_name='ratings')
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
