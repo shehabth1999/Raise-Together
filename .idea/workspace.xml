@@ -4,27 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1c7a95b-939a-4eaf-81e1-bfae9202ff8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/media/media/accounts/6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/projects/images/2_bbOtqTq.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/projects/images/3_OryKLBB.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/0002_remove_commentreport_project_commentreport_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/report_comment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categories/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/categories/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/donations/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/donations/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/add_rating.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/add_reply.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/create_project.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/edit_project.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/project_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/templates/projects/project_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="c1c7a95b-939a-4eaf-81e1-bfae9202ff8b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,8 +40,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="Projects" />
-                    <option name="lastUsedInstant" value="1697983064" />
+                    <option name="branchName" value="mainBeta2" />
+                    <option name="lastUsedInstant" value="1698348544" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
@@ -103,7 +83,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Rebasing mainBeta",
+    "git-widget-placeholder": "Rebasing mainBeta2",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
