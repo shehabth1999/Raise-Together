@@ -5,34 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1c7a95b-939a-4eaf-81e1-bfae9202ff8b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/media/projects/images/5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/projects/images/8.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/projects/images/8_GYKEycO.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/0002_project_category.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/0003_projectreport.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/add_comment.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/add_reply.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/create_project.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/edit_project.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/templates/projects/report_project.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/templates/projects/report_comment.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaiseTogether/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/RaiseTogether/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RaiseTogether/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RaiseTogether/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/categories/migrations/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/categories/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/categories/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/1_f4ZuNTO.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/1_gTkkJ5i.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/3_VsOXrRt.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/media/projects/images/3_bJ8FIx9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/6_Q7y3pOj.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/pic3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/projects/images/pic5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/categories/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/donations/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/donations/migrations/0002_alter_donation_donator_alter_donation_project.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/donations/migrations/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/all_project.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/templates/projects/all_project.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/templates/projects/add_rating.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/templates/projects/add_reply.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/templates/projects/project_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/templates/projects/project_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/views.py" afterDir="false" />
@@ -59,10 +42,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
   }
-}]]></component>
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -110,15 +93,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Rebasing projectBranch",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/donations/templates/donations" />

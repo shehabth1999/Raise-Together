@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Project, Multi_Picture, Comment
+from .models import Project, Multi_Picture, Comment, CommentReport
 from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm
 
 
@@ -55,7 +55,7 @@ def create_project(request):
             if images_formset.is_valid() and tags_formset.is_valid():
                 images_formset.save()
                 tags_formset.save()
-            return redirect('project_detail', project_id=project.id)
+            return redirect('projects:project_detail', project_id=project.id)
     else:
         form = ProjectForm()
         images_formset = MultiPictureFormSet(prefix='images')
@@ -122,3 +122,18 @@ def report_project(request, project_id):
     else:
         form = ProjectReportForm()
     return render(request, 'projects/report_project.html', {'form': form, 'project': project})
+
+
+
+def report_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'POST':
+        report_content = request.POST.get('report_comment')
+
+        user = request.user
+
+        comment_report = CommentReport(comment=comment, user=user, report_comment=report_content)
+        comment_report.save()
+
+    return render(request, 'projects/report_comment.html')

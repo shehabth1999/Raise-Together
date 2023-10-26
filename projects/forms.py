@@ -1,5 +1,5 @@
 from django import forms
-from .models import Multi_Picture, Project, Tag, ProjectReport
+from .models import Multi_Picture, Project, Tag, ProjectReport, CommentReport
 from django.forms import inlineformset_factory
 
 
@@ -31,3 +31,5 @@ class ProjectReportForm(forms.ModelForm):
         widgets = {
             'report_reason': forms.Textarea(attrs={'rows': 3}),
         }
+
+

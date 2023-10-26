@@ -60,3 +60,13 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
+
+
+
+class CommentReport(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE,default=None)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    report_comment = models.TextField()
+
+    def __str__(self):
+        return f"Comment Report for {self.comment}"
