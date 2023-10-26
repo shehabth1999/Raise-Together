@@ -140,3 +140,7 @@ def rate_project(request, project_id):
             return redirect('projects:project_detail', project_id=project.id)
 
     return render(request, 'projects/rate_project.html', {'form': form, 'project': project})
+
+def myprojects(request):
+    projects = Project.objects.filter(created_by = request.user)  
+    return render(request, 'projects/all_project.html', {'projects': projects})

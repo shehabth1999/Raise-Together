@@ -28,7 +28,7 @@
       <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item my-auto ms-2">
-            <a class="nav-link text-center" href="{% url 'all_project' %}">
+            <a class="nav-link text-center" href="{% url 'projects:all_project' %}">
               <span class="text-success fw-bold">Explore Projects</span>
             </a>
           </li>
@@ -55,7 +55,9 @@
           {% if user.id %}
           <div class="dropdown">
             <button class="btn btn-outline-success  dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if user.image %}
               <img src="{{ user.image.url }}" class="ms-1 rounded-5" width="30" height="30"/>
+              {% endif %}
               {{user.first_name}} {{user.last_name}}  
             </button>
             <ul class="dropdown-menu">
@@ -63,10 +65,10 @@
                 <a class="dropdown-item text-success" href="{% url 'profile' %}">My Porfile </a>
               </li>
               <li>
-                <a class="dropdown-item text-success" href="#">My Donations</a>
+                <a class="dropdown-item text-success" href="{% url 'donations.history'%}">My Donations</a>
               </li>
               <li>
-                <a class="dropdown-item text-success" href="#">My Projects</a>
+                <a class="dropdown-item text-success" href="{% url 'projects:myprojects' %}">My Projects</a>
               </li>
               <li>
                 <a class="dropdown-item text-success" href="">Logout</a>
