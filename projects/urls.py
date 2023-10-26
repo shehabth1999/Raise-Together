@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import all_project, upload_multi_picture, project_detail, add_comment, report_project, create_project, deleteProject, editForm,report_comment
+from .views import all_project, upload_multi_picture, project_detail, add_comment, report_project, create_project, deleteProject, editForm,report_comment,rate_project
 
 app_name = 'projects'
 
@@ -30,4 +30,5 @@ urlpatterns = [
     path('forms/edit/<int:project_id>',editForm, name='projects.edit' ),
     path('<int:id>', deleteProject,name='project.delete'),
     path('comment/report/<int:comment_id>/', report_comment, name='report_comment'),
+    path('rate_project/<int:project_id>/', rate_project, name='project.rate'),
 ]

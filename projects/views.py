@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Project, Multi_Picture, Comment, CommentReport
-from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm
+from .models import Project, Multi_Picture, Comment, CommentReport, Rating
+from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
+from django.db.models import Count
 
 
 def all_project(request):
@@ -15,10 +16,22 @@ def project_detail(request, project_id):
 
     images = Multi_Picture.objects.filter(project=project)
 
+
+    # Get the tags of the current project
+    current_tags = project.tags.values_list('tag', flat=True)
+
+     # Query for similar projects based on shared tags, excluding the current project
+    similar_projects = Project.objects.exclude(id=project_id) \
+        .filter(tags__tag__in=current_tags) \
+        .annotate(tag_count=Count('tags__tag')) \
+        .order_by('-tag_count')[:4]
+
+
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
+        'similar_projects': similar_projects
     })
 
 
@@ -73,7 +86,7 @@ def editForm(request, project_id):
             if images_formset.is_valid() and tags_formset.is_valid():
                 images_formset.save()
                 tags_formset.save()
-            return redirect('project_detail', project_id=project.id)
+            return redirect('projects:project_detail', project_id=project.id)
     else:
         form = ProjectForm(instance=project)
         images_formset = MultiPictureFormSet(instance=project, prefix='images')
@@ -88,7 +101,7 @@ def deleteProject(request, id):
 
     if request.method == 'POST':
         project.delete()
-        return redirect('all_project')
+        return redirect('projects:all_project')
     return render(request,
                 'projects/forms/delete.html',
                 {'project': project})
@@ -125,6 +138,8 @@ def report_project(request, project_id):
 
 
 
+
+
 def report_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
@@ -137,3 +152,21 @@ def report_comment(request, comment_id):
         comment_report.save()
 
     return render(request, 'projects/report_comment.html')
+
+def rate_project(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    form = RatingForm()
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating_value = form.cleaned_data['rating']
+
+             # Delete old rating for the same user if it exists
+            Rating.objects.filter(user=request.user, project=project).delete()
+
+            rating = Rating.objects.create(user=request.user, project=project, rating=rating_value)
+            project.update_rating()  # Custom method in the Project model to update the average rating
+            return redirect('projects:project_detail', project_id=project.id)
+
+    return render(request, 'projects/rate_project.html', {'form': form, 'project': project})
