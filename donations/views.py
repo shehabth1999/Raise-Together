@@ -12,7 +12,7 @@ def donationHistory(request):
     userDonations=[]
     for donation in donations :
         if donation.donator and donation.donator.id == request.user.id :
-            userDonations.push(donation)
+            userDonations.append(donation)
     return render(request,'donations/history.html',{'donations':userDonations})
 
 @login_required()
