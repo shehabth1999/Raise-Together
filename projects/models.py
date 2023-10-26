@@ -30,8 +30,8 @@ class Project(models.Model):
         self.save()
 
 class Tag(models.Model):
-    tag=models.CharField(max_length=100, unique=True, null=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tag',null=True)
+    tag=models.CharField(max_length=100, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tags',null=True)
 
 
     def __str__(self):

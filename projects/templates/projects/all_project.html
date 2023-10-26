@@ -36,7 +36,7 @@
             <p><strong>End Time:</strong> {{ project.end_time }}</p>
             <p><strong>Created By:</strong> {{ project.created_by.username }}</p>
             <p>Tags:
-            {% for tag in project.tag.all %}
+            {% for tag in project.tags.all %}
                 <span class="tag">{{ tag.tag }}</span>
             {% endfor %}
             </p>

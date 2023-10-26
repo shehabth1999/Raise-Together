@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Project, Multi_Picture, Comment ,Rating
 from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm ,RatingForm
+from django.db.models import Count
 
 
 def all_project(request):
@@ -15,10 +16,22 @@ def project_detail(request, project_id):
 
     images = Multi_Picture.objects.filter(project=project)
 
+
+    # Get the tags of the current project
+    current_tags = project.tags.values_list('tag', flat=True)
+
+     # Query for similar projects based on shared tags, excluding the current project
+    similar_projects = Project.objects.exclude(id=project_id) \
+        .filter(tags__tag__in=current_tags) \
+        .annotate(tag_count=Count('tags__tag')) \
+        .order_by('-tag_count')[:4]
+
+
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
+        'similar_projects': similar_projects
     })
 
 
