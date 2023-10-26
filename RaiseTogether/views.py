@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.db.models import Q
 from categories.models import Category
 from projects.models import Project, Rating
-from RaiseTogether.forms import SearchForm
 from django.utils import timezone
 
 def index(request):
