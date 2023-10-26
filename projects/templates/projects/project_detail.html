@@ -40,6 +40,9 @@
                 <div class="comment-content">
                     <p>
                         Comment : <span class="text-success"> {{ comment.content }} </span>
+                        <span class="">
+                            <a href="{% url 'projects:report_comment' comment_id=comment.id %}">Add Report</a>
+                        </span>
                     </p>
                 </div>
             </div>

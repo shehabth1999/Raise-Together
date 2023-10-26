@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+
+{% block container %}
+
+<div class="container my-4">
+
+  <h3 class="text-danger">Report Comment</h3>
+<form method="post">
+  {% csrf_token %}
+  <input class="form-control form-control-lg" type="text" name="report_comment" placeholder="Add report" style="height: 100px; width: 500px;">
+  <button class="btn btn-primary my-4" type="submit">Submit Report</button>
+</form>
+
+</div>
+
+  <script src="{% static  'projects/js/create.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+{% endblock %}

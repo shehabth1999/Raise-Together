@@ -3,7 +3,6 @@ from django.shortcuts import reverse
 from accounts.models import MyUser
 from django.utils import timezone
 from categories.models import Category
-from django.contrib.auth.models import User
 
 
 class Project(models.Model):
@@ -19,7 +18,7 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def update_rating(self):
         ratings = self.ratings.all()
         if ratings.exists():
@@ -68,7 +67,18 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
-    
+
+
+
+class CommentReport(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE,default=None)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    report_comment = models.TextField()
+
+    def __str__(self):
+        return f"Comment Report for {self.comment}"
+
+
 class Rating(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE ,related_name='ratings')
