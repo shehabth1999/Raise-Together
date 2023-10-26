@@ -3,28 +3,16 @@
 {% block title %} <title>Raise Together</title>{% endblock %}
 {% block container %}
 <div class="container-fluid px-0">
-  
   <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
-    <div class="carousel-inner h-75">
-      <div class="carousel-item active position-relative ">
-        <img src="/media/products/images/17553.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block text-success">
-          <h5>Project 1</h5>
-          <p>information</p>
+    <div class="carousel-inner">
+      {% for project in top_rated_projects %}
+      <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %} position-relative ">
+        <img src="{{ project.images.first.get_image_url }}" class="d-block w-100 h-100" alt="...">
+        <div class="carousel-caption d-none d-md-block text-success py-0">
+          <a href="{% url 'project_detail' project.id %}" class="carousel-link btn text-success fs-4"><i class="fa-solid fs-5 fa-circle-info"></i></a>
         </div>
       </div>
-      <div class="carousel-item">
-        <img src="/media/products/images/305936.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/media/products/images/305946.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/media/products/images/1121770.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="/media/products/images/3056994.jpg" class="d-block w-100" alt="...">
-      </div>
+      {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -51,7 +39,7 @@
               <div class="carousel-inner">
                 {% for image in project.images.all %}
                 <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                  <img src="{{image.get_image_url}}" class="d-block w-100" alt="..." style="height: 200px;">
+                  <img src="{{image.get_image_url}}" class="d-block w-100 rounded-3" alt="..." style="height: 200px;">
                 </div>
                 {% endfor %}
               </div>
@@ -87,7 +75,7 @@
               <div class="carousel-inner">
                 {% for image in project.images.all %}
                 <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                  <img src="{{image.get_image_url}}" class="d-block w-100" alt="..." style="height: 200px;">
+                  <img src="{{image.get_image_url}}" class="d-block w-100 rounded-3" alt="..." style="height: 200px;">
                 </div>
                 {% endfor %}
               </div>
@@ -95,7 +83,7 @@
             
             <div class="card-body">
               <h5 class="card-title"><span class="truncated">{{ project.title|slice:":20" }}</span></h5>
-              <p class="card-text"><span style="font-weight: 500;">Will Finish At: </span><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
+              <p class="card-text"><span style="font-weight: 500;">Finish At: </span><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
               <div class="d-flex justify-content-between align-items-end mt-4">
                 <a href="" class="btn text-success p-0"><i class="fa-solid fs-5 fa-hand-holding-dollar"></i></a>
                 {% if user == project.created_by %}

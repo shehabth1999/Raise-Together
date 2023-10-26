@@ -18,6 +18,7 @@ class Project(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
+
     def __str__(self):
         return self.title
 
@@ -50,8 +51,6 @@ class Multi_Picture(models.Model):
        return  reverse('project_detail', args=[self.id])
 
 
-
-
 class Comment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments' )
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
@@ -69,15 +68,16 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
-
-
-
+    
 
 class Rating(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE ,related_name='ratings')
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.project.title}: {self.rating}"
 
 class CommentReport(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE,default=None)
@@ -86,3 +86,7 @@ class CommentReport(models.Model):
 
     def __str__(self):
         return f"Comment Report for {self.comment}"
+
+
+
+        
