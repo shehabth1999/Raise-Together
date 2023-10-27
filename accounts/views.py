@@ -117,7 +117,7 @@ def login_user(request):
             
             login(request, user)
             messages.success(request, f'Welcome {user.username}')
-            return redirect(reverse('projects.index'))
+            return redirect(reverse('homepage.index'))
 
     return render(request, 'registration/login.html', {'form': form})
 

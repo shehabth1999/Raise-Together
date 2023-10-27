@@ -17,7 +17,7 @@ The web app should include the following features:
 		- The activation link should expire after 24 hours. ok
 
 	- Login 
-		- The user should be able to log in after activation using his email and password ok
+		- The user should be able to log in after activation using his email and password -----------------------------------------------------
 		- Bonus: Allow users to log in with a Facebook account --------------------------------------------------------------------------------
 		- Forgot Password (Bonus) -------------------------------------------------------------------------------------------------------------
 		- The user should have the option to reset his password if he forgot it to receive a password reset link to his email -----------------
