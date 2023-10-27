@@ -17,8 +17,10 @@
         z-index: 1000;
       }
     </style>
+    <title>
     {% block title %}
     {% endblock %}
+    </title>
     {% block style %}
     {% endblock %}
 </head>
@@ -68,7 +70,7 @@
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item text-success" href="{% url 'profile' %}">My Porfile </a>
+                <a class="dropdown-item text-success" href="{% url 'profile.view' %}">My Porfile </a>
               </li>
               <li>
                 <a class="dropdown-item text-success" href="{% url 'donations.history'%}">My Donations</a>
@@ -77,7 +79,7 @@
                 <a class="dropdown-item text-success" href="{% url 'projects:myprojects' %}">My Projects</a>
               </li>
               <li>
-                <a class="dropdown-item text-success" href="">Logout</a>
+                <a class="dropdown-item text-success" href="{% url 'logout' %}">Logout</a>
               </li>
             </ul>
           </div>
@@ -167,7 +169,7 @@
      © 2021 Copyright:<a class="text-reset fw-bold" href="https://mdbootstrap.com/">campaign.com</a>
     </div>
   </footer>
-  <script src="{% static  'base/js/script.js' %}"></script>
+  <script src="{% static  'accounts/js/scriptt.js' %}"></script>
   <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
   <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
   <script src="{% static 'fontawesomefree/js/solid.js' %}"></script>
