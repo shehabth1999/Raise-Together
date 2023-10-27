@@ -1,16 +1,44 @@
-{% extends "layouts/base.html" %}
-{% load static %}
-
-{% block title %}
-    Login
-{% endblock %}
-
-{% block container %}
-<h1 class="mt-5 ms-3">Login</h1>
-<form method="post" enctype="multipart/form-data" class="mt-3 ms-3">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="m-3 btn btn-primary">Login</button>
-</form>
-
+{% extends "layouts/base.html" %} {% load static %} {% block title %} Login
+{%endblock %} {% block container %}
+<link href="{% static  'accounts/css/master.css' %}" rel="stylesheet" />
+<!-- Start Body -->
+<div class="profile container p-5 my-5 shadow-lg rounded-3 bg-white">
+  <div class="row align-items-center">
+    <img
+      src="{% static 'accounts/images/login.jpg' %}"
+      class="col-6"
+      width="300"
+    />
+    <div class="col-6 pb-5">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {{ form }}
+        
+        <div class="d-flex justify-content-evenly align-items-center mt-4">
+          <button
+          type="submit"
+          class="btn btn-outline-success"
+        >
+          Login
+        </button>
+        <a
+          href="{% url 'account.create' %}"
+          class="text-decoration-none text-success"
+          >Forgot Password?</a
+        >
+        </div>
+        <hr class="text-success"/>
+      </form>
+      <div class="text-center">
+        <a
+          href="{% url 'account.create' %}"
+          class="text-decoration-none text-success"
+          >Create Now Account!</a
+        >
+        
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static  'accounts/js/script.js' %}"></script>
 {% endblock %}
