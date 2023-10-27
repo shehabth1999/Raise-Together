@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block container %}
+
+<style>
+    .rate:hover{
+        color: white !important;
+    }
+</style>
+
+
+<div class="container w-25 my-5" style="height: 400px;">
+    <h2  style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">{{ project.title }}</h2>
+    <form method="post" style="font-family:'Courier New', Courier, monospace; font-weight:800; ">
+        {% csrf_token %}
+        {{ form.as_p }}
+      <button type="submit" class="btn btn-outline-danger text-dark text-center  mt-3 px-4 rate" style="font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; " >Submit</button>
+    </form>
+</div>
+
+<script src="{% static 'projects/js/create.js'%}"></script>
+{% endblock %}

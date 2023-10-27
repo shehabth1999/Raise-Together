@@ -1,10 +1,7 @@
-
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Project, Multi_Picture, Rating
-from .forms import MultiPictureForm, RatingForm
-
-
-# Create your views here.
+from .models import Project, Multi_Picture, Comment, CommentReport, Rating
+from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
+from django.db.models import Count
 
 
 def all_project(request):
@@ -15,10 +12,31 @@ def all_project(request):
 def project_detail(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
 
-    # Retrieve all images related to the project
+    comments = Comment.objects.filter(project=project)
+
     images = Multi_Picture.objects.filter(project=project)
 
-    return render(request, 'projects/project_detail.html', {'project': project, 'images': images})
+
+    # Get the tags of the current project
+    current_tags = project.tags.values_list('tag', flat=True)
+
+     # Query for similar projects based on shared tags, excluding the current project
+    similar_projects = Project.objects.exclude(id=project_id) \
+        .filter(tags__tag__in=current_tags) \
+        .annotate(tag_count=Count('tags__tag')) \
+        .order_by('-tag_count')[:4]
+
+
+    return render(request, 'projects/project_detail.html', {
+        'project': project,
+        'images': images,
+        'comments': comments,
+        'similar_projects': similar_projects
+    })
+
+
+
+
 
 
 def upload_multi_picture(request, project_id):
@@ -39,19 +57,120 @@ def upload_multi_picture(request, project_id):
     return render(request, 'projects/upload_multi_picture.html', {'project': project, 'form': form})
 
 
-def add_rating(request, project_id):
+
+def create_project(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save()
+            images_formset = MultiPictureFormSet(request.POST, request.FILES, instance=project, prefix='images')
+            tags_formset = TagFormSet(request.POST, instance=project, prefix='tags')
+            if images_formset.is_valid() and tags_formset.is_valid():
+                images_formset.save()
+                tags_formset.save()
+            return redirect('projects:project_detail', project_id=project.id)
+    else:
+        form = ProjectForm()
+        images_formset = MultiPictureFormSet(prefix='images')
+        tags_formset = TagFormSet(prefix='tags')
+    return render(request, 'projects/forms/create.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
+
+def editForm(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            project = form.save()
+            images_formset = MultiPictureFormSet(request.POST, request.FILES, instance=project, prefix='images')
+            tags_formset = TagFormSet(request.POST, instance=project, prefix='tags')
+            if images_formset.is_valid() and tags_formset.is_valid():
+                images_formset.save()
+                tags_formset.save()
+            return redirect('projects:project_detail', project_id=project.id)
+    else:
+        form = ProjectForm(instance=project)
+        images_formset = MultiPictureFormSet(instance=project, prefix='images')
+        tags_formset = TagFormSet(instance=project, prefix='tags')
+    return render(request, 'projects/forms/edit.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
+
+
+
+
+def deleteProject(request, id):
+    project = Project.objects.get(id=id)
+
+    if request.method == 'POST':
+        project.delete()
+        return redirect('projects:all_project')
+    return render(request,
+                'projects/forms/delete.html',
+                {'project': project})
+
+
+def add_comment(request, project_id):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        project = get_object_or_404(Project, pk=project_id)
+        user = request.user
+        comment = Comment(project=project, user=user, content=content)
+        comment.save()
+        project_id = project.pk
+        return redirect(reverse('projects:project_detail', args=[project_id]))
+    else:
+        return render(request, 'projects/add_comment.html', {'project_id': project_id})
+
+
+
+
+def report_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.method == 'POST':
+        form = ProjectReportForm(request.POST)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.project = project
+            report.user = request.user
+            report.save()
+            return redirect('projects:project_detail', project_id=project.id)
+    else:
+        form = ProjectReportForm()
+    return render(request, 'projects/report_project.html', {'form': form, 'project': project})
+
+
+
+
+
+def report_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'POST':
+        report_content = request.POST.get('report_comment')
+
+        user = request.user
+
+        comment_report = CommentReport(comment=comment, user=user, report_comment=report_content)
+        comment_report.save()
+
+    return render(request, 'projects/report_comment.html')
+
+def rate_project(request, project_id):
     project = Project.objects.get(pk=project_id)
+    form = RatingForm()
 
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.project = project
-            rating.save()
-            return redirect('project_detail', project_id=project_id)
+            rating_value = form.cleaned_data['rating']
 
-    else:
-        form = RatingForm()
+             # Delete old rating for the same user if it exists
+            Rating.objects.filter(user=request.user, project=project).delete()
 
-    return render(request, 'projects/add_rating.html', {'form': form, 'project': project})
+            rating = Rating.objects.create(user=request.user, project=project, rating=rating_value)
+            project.update_rating()  # Custom method in the Project model to update the average rating
+            return redirect('projects:project_detail', project_id=project.id)
+
+    return render(request, 'projects/rate_project.html', {'form': form, 'project': project})
+
+def myprojects(request):
+    projects = Project.objects.filter(created_by = request.user)  
+    return render(request, 'projects/all_project.html', {'projects': projects})
