@@ -6,7 +6,7 @@
     <div class="row align-items-center">
         <img src="{% static 'projects/images/delete_project.jpg' %}" class="col-6" width="300" />
         <div class="col-6">
-            <p class="fw-bold mb-2">Are You Sure You Want To Delete This Project?  {{ project.title }}</p>
+            <p class="fw-bold mb-2">Are You Sure You Want To Delete This Project?  <span class="fw-normal">{{ project.title }}</span></p>
             <form method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger mt-3 px-4 " >Delete</button>

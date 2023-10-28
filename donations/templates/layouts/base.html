@@ -62,7 +62,9 @@
           <div class="dropdown">
             <button class="btn btn-outline-success  dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               {% if user.image %}
-              <img src="{{ user.image.url }}" class="ms-1 rounded-5" width="30" height="30"/>
+              <img src="{{ user.image.url }}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
+              {% else %}
+              <img src="{% static 'base/images/no_profile_image.png' %}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
               {% endif %}
               {{user.first_name}} {{user.last_name}}  
             </button>

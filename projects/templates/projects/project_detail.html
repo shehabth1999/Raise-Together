@@ -18,7 +18,11 @@
             </div>
             <!-- Owner -->
             <p class="fs-5 my-3">
-                <img src="{{ project.created_by.image.url }}" class="me-3 rounded-5" width="30" height="30"/>
+                {% if project.created_by.image %}
+                <img src="{{ project.created_by.image.url }}" class="me-3" width="30" height="30" style="border-radius: 50%;"/>
+                {% else %}
+                <img src="{% static 'base/images/no_profile_image.png' %}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
+                {% endif %}
                 {{project.created_by.first_name}} {{project.created_by.last_name}} is Owner this Project.
                 {% if user == project.created_by %}
                 <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0 mx-4"><i class="fa-regular fa-pen-to-square"></i></a>
@@ -57,7 +61,11 @@
                 <div class="comment mb-5">
                     <div class="user-info">
                         <span>
-                            <img src="{{ comment.user.image.url }}" class="me-3 rounded-5" width="30" height="30"/>
+                            {% if comment.user.image %}
+                            <img src="{{ comment.user.image.url }}" class="me-3" width="30" height="30" style="border-radius: 50%;"/>
+                            {% else %}
+                            <img src="{% static 'base/images/no_profile_image.png' %}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
+                            {% endif %}
                             {{comment.user.first_name}} {{comment.user.last_name}}
                         </span>
                         <small class="text-secondary ms-5">Created {{ comment.created_at|timesince }} ago</small>
@@ -71,7 +79,11 @@
                             {% for reply in comment.replies.all %}
                             <div class="reply mb-4">
                                 <span>
-                                    <img src="{{ reply.user.image.url }}" class="me-3 rounded-5" width="30" height="30"/>
+                                    {% if reply.user.image %}
+                                    <img src="{{ reply.user.image.url }}" class="me-3" width="30" height="30" style="border-radius: 50%;"/>
+                                    {% else %}
+                                    <img src="{% static 'base/images/no_profile_image.png' %}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
+                                    {% endif %}
                                     {{reply.user.first_name}} {{reply.user.last_name}}
                                 </span>
                                 <small class="text-secondary ms-5">Created {{ reply.created_at|timesince }} ago</small>
