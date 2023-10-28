@@ -22,6 +22,8 @@ import re
 from django.contrib.auth import update_session_auth_hash
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
+from projects.models import Project
+from donations.models import Donation
 
 
 
@@ -141,9 +143,25 @@ def logout_user(request):
 class Profile(DetailView):
     model = MyUser
     template_name = 'accounts/profile.html'
-    def get_object(self, queryset=None):
-        return self.request.user #return the currently logged-in user.
 
+    def get_object(self, queryset=None):
+        return self.request.user  
+
+    def get_context_data(self, **kwargs):
+        
+        context = super(Profile, self).get_context_data(**kwargs)
+        user = self.request.user
+
+        if Project.objects.filter(created_by=user).exists():
+            user_projects = Project.objects.filter(created_by=user)
+            context['user_projects'] = user_projects
+
+        if Donation.objects.filter(donator=user).exists():
+            user_donations = Donation.objects.filter(donator=user)
+            context['user_donations'] = user_donations
+
+
+        return context
 #-----------------------------------------------------------------------------------------
 
 # class Edit_Profile(UpdateView):
