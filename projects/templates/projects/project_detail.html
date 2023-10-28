@@ -22,7 +22,7 @@
                 {{project.created_by.first_name}} {{project.created_by.last_name}} is Owner this Project.
                 {% if user == project.created_by %}
                 <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0 mx-4"><i class="fa-regular fa-pen-to-square"></i></a>
-                <a href="{% url 'projects:upload_multi_picture' project.id%}" class="btn text-success p-0 mx-4"><i class="fa-solid fa-arrow-up"></i> <i class="fa-solid fa-images"></i></a>
+               
                 <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0 mx-4"><i class="fa-solid fa-x"></i></a>
                 {% endif %}
                 

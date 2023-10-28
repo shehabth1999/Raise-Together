@@ -30,6 +30,7 @@ class Project(models.Model):
             self.rating = average_rating
             self.save()
             return average_rating
+        self.rating = None
         return None
 
 class Tag(models.Model):
@@ -38,18 +39,21 @@ class Tag(models.Model):
 
 
     def __str__(self):
-        return self.tag
+        return f" Name of Project : {self.project.title} - Name of  tag is : {self.tag}"
 
 class Multi_Picture(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='projects/images/')
+    image = models.ImageField(upload_to='projects/images/', null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
-    def get_image_url(self):
-        return f'/media/{self.image}'
+    def __str__(self):
+        return f" Name of Project : {self.project.title} - {self.image}"
     
     def get_detail_url(self):
        return  reverse('project_detail', args=[self.id])
+    
+    def get_image_url(self):
+        return f'/media/{self.image}'
 
 
 class Comment(models.Model):
@@ -62,6 +66,7 @@ class Comment(models.Model):
         return f"Comment by {self.user.username} on {self.project.title if self.project else 'Unknown Project'}"
 
 
+
 class ProjectReport(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
@@ -69,6 +74,7 @@ class ProjectReport(models.Model):
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
+
     
 
 class Rating(models.Model):

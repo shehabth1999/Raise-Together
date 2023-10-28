@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Project, Multi_Picture, Comment, CommentReport, Rating
-from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
+from .models import Project, Multi_Picture, Comment, CommentReport, Rating, Tag
+from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm
 from django.db.models import Count
+from django.forms import modelformset_factory
 from donations.forms import DonationModelForm
 from django.contrib.auth.decorators import login_required
 
@@ -12,99 +13,103 @@ def all_project(request):
 
 
 def project_detail(request, project_id):
+
     project = get_object_or_404(Project, pk=project_id)
-
     comments = Comment.objects.filter(project=project)
-
-    images = Multi_Picture.objects.filter(project=project)
-
-
-    # Get the tags of the current project
+    images = project.images.all()
     current_tags = project.tags.values_list('tag', flat=True)
 
-     # Query for similar projects based on shared tags, excluding the current project
+
     similar_projects = Project.objects.exclude(id=project_id) \
         .filter(tags__tag__in=current_tags) \
         .annotate(tag_count=Count('tags__tag')) \
         .order_by('-tag_count')[:4]
-    
-    current_target = project.current_target
-    total_target = project.total_target
-
-    percentage = (current_target / total_target) * 100
 
 
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
-        'similar_projects': similar_projects,
-        'percentage': percentage
+        'similar_projects': similar_projects
     })
 
 
 
 
-
-@login_required
-def upload_multi_picture(request, project_id):
-    project = Project.objects.get(pk=project_id)
-
-    if request.method == 'POST':
-        form = MultiPictureForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_image = form.save(commit=False)
-            new_image.project = project
-            new_image.save()
-            return redirect(f'/projects/project_detail/{project_id}', project_id=project_id)
-
-    else:
-        form = MultiPictureForm()
-
-    # Pass the 'project' object to the template context along with its 'title'
-    return render(request, 'projects/upload_multi_picture.html', {'project': project, 'form': form})
-
-
 @login_required
 def create_project(request):
+    ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=4)
+
     if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            project = form.save(commit=False)
-            project.created_by = request.user
-            project.save()
-            images_formset = MultiPictureFormSet(request.POST, request.FILES, instance=project, prefix='images')
-            tags_formset = TagFormSet(request.POST, instance=project, prefix='tags')
-            if images_formset.is_valid() and tags_formset.is_valid():
-                images_formset.save()
-                tags_formset.save()
+        project_form = ProjectForm(request.POST, request.FILES)
+        formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.none())
+
+        if project_form.is_valid() and formset.is_valid():
+            project = project_form.save()
+
+            # Process and associate tags with the project
+            tags_input = project_form.cleaned_data['tags']
+            tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
+            for tag in tags_list:
+                tag_obj, created = Tag.objects.get_or_create(tag=tag, project=project)
+
+            for form in formset:
+                if form.cleaned_data:
+                    image = form.cleaned_data.get('image')
+                    img = Multi_Picture(project=project, image=image)
+                    img.save()
+
             return redirect('projects:project_detail', project_id=project.id)
     else:
-        form = ProjectForm()
-        images_formset = MultiPictureFormSet(prefix='images')
-        tags_formset = TagFormSet(prefix='tags')
-    return render(request, 'projects/forms/create.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
+        project_form = ProjectForm()
+        formset = ImageFormSet(queryset=Multi_Picture.objects.none())
+
+    return render(request, 'projects/forms/create.html', {'project_form': project_form, 'formset': formset})
 
 @login_required
-def editForm(request, project_id):
+def edit_project(request, project_id):
+    # Get the project instance to edit
     project = get_object_or_404(Project, id=project_id)
+
+    # Create an ImageFormSet for editing images
+    ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)
+
     if request.method == 'POST':
-        form = ProjectForm(request.POST, instance=project)
-        if form.is_valid():
-            project = form.save()
-            images_formset = MultiPictureFormSet(request.POST, request.FILES, instance=project, prefix='images')
-            tags_formset = TagFormSet(request.POST, instance=project, prefix='tags')
-            if images_formset.is_valid() and tags_formset.is_valid():
-                images_formset.save()
-                tags_formset.save()
+        # Create a ProjectForm instance with the updated data
+        project_form = ProjectForm(request.POST, request.FILES, instance=project)
+
+        # Create an ImageFormSet with the updated images
+        formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.filter(project=project))
+
+        if project_form.is_valid() and formset.is_valid():
+            # Save the updated project details
+            project = project_form.save()
+
+            # Delete all existing project images
+            project.images.all().delete()
+
+            # Process and associate tags with the project
+            tags_input = project_form.cleaned_data.get('tags')
+            tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
+            for tag in tags_list:
+                tag_obj, created = Tag.objects.get_or_create(tag=tag, project=project)
+
+            for form in formset:
+                if form.cleaned_data:
+                    image = form.cleaned_data.get('image')
+                    img = Multi_Picture(project=project, image=image)
+                    img.save()
+
             return redirect('projects:project_detail', project_id=project.id)
     else:
-        form = ProjectForm(instance=project)
-        images_formset = MultiPictureFormSet(instance=project, prefix='images')
-        tags_formset = TagFormSet(instance=project, prefix='tags')
-    return render(request, 'projects/forms/edit.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
+        # Create a ProjectForm instance with the existing project data
+        project_form = ProjectForm(instance=project)
 
+        # Create an ImageFormSet with the existing project images
+        formset = ImageFormSet(queryset=Multi_Picture.objects.filter(project=project))
 
+    return render(request, 'projects/forms/edit.html',
+                  {'project_form': project_form, 'formset': formset, 'project': project})
 
 @login_required
 def deleteProject(request, id):
@@ -116,7 +121,6 @@ def deleteProject(request, id):
     return render(request,
                 'projects/forms/delete.html',
                 {'project': project})
-
 
 @login_required
 def add_comment(request, project_id):
@@ -133,7 +137,7 @@ def add_comment(request, project_id):
 
 
 
-@login_required
+
 def report_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
@@ -151,7 +155,7 @@ def report_project(request, project_id):
 
 
 
-@login_required
+
 def report_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
