@@ -23,7 +23,8 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['title', 'details', 'total_target', 'start_time', 'end_time','category']
+        # fields = ['title', 'details', 'total_target', 'start_time', 'end_time','category']
+        fields='__all__'
         widgets = {
             'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
