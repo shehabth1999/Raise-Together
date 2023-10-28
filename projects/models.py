@@ -88,5 +88,12 @@ class CommentReport(models.Model):
         return f"Comment Report for {self.comment}"
 
 
+class CommentReply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Reply by {self.user.username} on {self.comment}"
         

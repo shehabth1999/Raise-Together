@@ -13,6 +13,7 @@ for (var i = 0; i < labels.length; i++) {
 textArea=document.querySelectorAll('textarea');
 for (var i = 0; i < textArea.length; i++) {
     textArea[i].classList.add('form-control');
+    textArea[i].setAttribute('rows', '3');
 }
 
 inputs = document.querySelectorAll('input');

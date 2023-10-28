@@ -1,5 +1,5 @@
 from django import forms
-from .models import Multi_Picture, Project, Tag, ProjectReport, CommentReport
+from .models import Multi_Picture, Project, Tag, ProjectReport, CommentReport, CommentReply
 from django.forms import inlineformset_factory
 
 
@@ -39,3 +39,8 @@ class RatingForm(forms.Form):
     rating = forms.IntegerField(min_value=1, max_value=5)
 
 
+class CommentReplyForm(forms.ModelForm):
+    content = forms.CharField(label='Reply To Comment', widget=forms.Textarea)
+    class Meta:
+        model = CommentReply
+        fields = ['content']
