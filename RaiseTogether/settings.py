@@ -36,7 +36,10 @@ SECRET_KEY = 'django-insecure-bls*k(y9s%4^kbjyukftyxx3)*@odqw0$n82hdzg5ix4skv+h6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+# TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 
 
 # Application definition
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
     'donations.apps.DonationsConfig',
     'categories.apps.CategoriesConfig',
     'accounts.apps.AccountsConfig',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +151,25 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'accounts.MyUser'
+
+from decouple import config
+# pip install python-decouple
+# to use .env
+
+# Email Config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_FROM_USER = config('EMAIL_FROM_USER')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = False
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_DEBUG = True
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Keep the ModelBackend for fallback
+]
+
+

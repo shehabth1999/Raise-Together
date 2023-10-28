@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+    Logout
+{% endblock %}
+
+{% block container %}
+  <h1 class="mt-5 ms-3" >Logout</h1>
+
+    <a href="{% url 'login' %}" class="btn btn-primary mt-3 ms-3">Login Again</a>
+
+
+{% endblock %}
