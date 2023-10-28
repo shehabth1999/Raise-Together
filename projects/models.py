@@ -17,6 +17,7 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
+    rating = models.IntegerField(null=True)
 
     def __str__(self):
         return self.title
@@ -26,6 +27,8 @@ class Project(models.Model):
         if ratings.exists():
             average_rating = ratings.aggregate(models.Avg('rating'))['rating__avg']
             average_rating = round(average_rating, 2)
+            self.rating = average_rating
+            self.save()
             return average_rating
         return None
 
