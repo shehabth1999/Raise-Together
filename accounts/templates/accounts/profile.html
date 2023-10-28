@@ -12,7 +12,7 @@
           <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>
           <div class="d-flex justify-content-center mb-2">
             <a href="{% url 'profile.edit' %}" type="button" class="btn btn-outline-success">Edit Profile</a>
-            <a href="{% url 'profile.delete' %}" type="button" class="btn btn-outline-danger ms-1">Delete Profile</a>
+            <a href="{% url 'profile.delete.confirm' %}" type="button" class="btn btn-outline-danger ms-1">Delete Profile</a>
 
           </div>
           {% if user.facebook_profile %}

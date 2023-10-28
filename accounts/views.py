@@ -21,6 +21,7 @@ from .decorators import auth_user_should_not_access
 import re
 from django.contrib.auth import update_session_auth_hash
 from datetime import datetime
+from django.contrib.auth.hashers import check_password
 
 
 
@@ -65,7 +66,7 @@ def activate_user(request, uidb64, token):
         print("Current Time:", timezone.now())
         print("Activation Link Creation Time:", user.activation_link_created_at)
         
-        if user.activation_link_created_at and timezone.now() - user.activation_link_created_at > expiration_time:
+        if user.activation_link_created_at and timezone.now() - user.activation_link_created_at < expiration_time:
             print("Activation link has expired.")
             return render(request, 'registration/activate-failed.html', {"user": user, "reason": "Activation link expired"})
         
@@ -188,12 +189,27 @@ def change_password(request):
         form = CustomPasswordChangeForm(request.user)
     return render(request, 'registration/edit_password.html', {'form': form})
 #-----------------------------------------------------------------------------------------
-class Delete_Profile(DeleteView):
-    model= MyUser
-    template_name = 'registration/delete_profile.html'
-    success_url = reverse_lazy("account.create")
-    def get_object(self, queryset=None):
-        return self.request.user #return the currently logged-in user.    
+
+# class Delete_Profile(DeleteView):
+#     model= MyUser
+#     template_name = 'registration/delete_profile.html'
+#     success_url = reverse_lazy("account.create")
+#     def get_object(self, queryset=None):
+#         return self.request.user #return the currently logged-in user.    
+
+#-----------------------------------------------------------------------------------------
+
+def confirm_delete(request):
+    if request.method == 'POST':
+        confirm_password = request.POST.get('confirm_password')
+        user = request.user
+        if check_password(confirm_password, user.password):
+            user.delete()
+            messages.success(request,"your account deleted, Thank you for your time with us")
+            return redirect('login')
+        messages.error(request, 'Incorrect password, Profile deletion failed.')
+        return redirect('profile.delete.confirm')
+    return render(request, 'accounts/confirm_delete.html')      
 
 #-----------------------------------------------------------------------------------------    
 # def send_reset_password_email(user, request):
