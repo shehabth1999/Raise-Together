@@ -46,6 +46,8 @@ def create_project(request):
 
         if project_form.is_valid() and formset.is_valid():
             project = project_form.save()
+            project.created_by = request.user
+            project.save()
 
             # Process and associate tags with the project
             tags_input = project_form.cleaned_data['tags']

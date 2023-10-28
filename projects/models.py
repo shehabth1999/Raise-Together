@@ -15,7 +15,7 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
+    created_by = models.ForeignKey(MyUser,null=True , on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
     rating = models.IntegerField(null=True)
 

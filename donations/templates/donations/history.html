@@ -5,18 +5,18 @@
 <div class="row m-5 pt-5 container justify-content-center mx-auto">  
   {% for donation in donations %}
   <div style="width: 70%; border: 3px solid; padding: 10px; border-radius: 25px;" class="border-success m-2 d-flex">
-    <h1 class="text-success">
-      <i class="fa-solid fa-plus fs-3"></i>
-      <span class="text-warning">{{donation.amount}}</span>
-      <i class="fa-solid fa-dollar-sign text-warning"></i>
+    <h1 class="text-success d-flex">
+      <i class="fa-solid fa-plus fs-3 my-auto"></i>
+      <span class="text-warning my-auto mx-2">{{donation.amount}}</span>
+      <i class="fa-solid fa-dollar-sign text-warning my-auto"></i>
     </h1>
-    <p class="text-success mx-auto my-auto">
-      <i class="fa-regular fa-calendar-days"></i> 
-      <span class="border border-success rounded p-1 fs-5">{{donation.created_at}}</span>
+    <p class="text-success mx-auto my-auto d-flex">
+      <i class="fa-regular fa-calendar-days my-auto mx-2"></i> 
+      <span class="border border-success rounded p-1 my-auto fs-5">{{donation.created_at}}</span>
     </p>
-    <p class="text-success ms-auto my-auto">
-      <i class="fa-solid fa-arrow-right fs-5"></i>
-      <span class="btn btn-success">{{donation.project.title}}</span>
+    <p class="text-success ms-auto my-auto d-flex">
+      <i class="fa-solid fa-arrow-right fs-5 my-auto"></i>
+      <span class="btn btn-success my-auto mx-2">{{donation.project.title}}</span>
     </p>
   </div>
   {% endfor %}
