@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} <title>Cancel Project</title>{% endblock %}
+{% block container %}
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+        <img src="{% static 'projects/images/cancel_project.jpg' %}" class="col-6" width="300" />
+        <div class="col-6">
+            <p class="fw-bold mb-2">Are You Sure You Want To Cancel This Project?  {{ project.title }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-3 px-4 " >Submit</button>
+                <a href="/projects/" class="btn btn-outline-success mx-3 mt-3 px-4 " >Cancel</a>
+            </form>
+            <hr>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,21 +1,22 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
-
+{% block title %} <title>Delete Project</title>{% endblock %}
 {% block container %}
-<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css'%}">
-
-<h1 style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">Delete Project</h1>
-
-<p style="color: black; text-align: center; font-weight: 700; margin-top: 50px;">Are You Sure You Want To Delete This Project?  {{ project.title }}</p>
-
-<form action="" method="post" style="text-align: center;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-outline-danger text-dark mt-3 px-4 " >Delete</button>
-    <a href="/projects/" class="btn btn-outline-success text-dark mx-5 mt-3 px-4 " >Cancel</a>
-    </form>
-   
-
-
-    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+        <img src="{% static 'projects/images/delete_project.jpg' %}" class="col-6" width="300" />
+        <div class="col-6">
+            <p class="fw-bold mb-2">Are You Sure You Want To Delete This Project?  {{ project.title }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-3 px-4 " >Delete</button>
+                <a href="/projects/" class="btn btn-outline-success mx-3 mt-3 px-4 " >Cancel</a>
+                <hr>
+            </form>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

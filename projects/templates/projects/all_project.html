@@ -1,15 +1,44 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
-
-
+{% block title %} <title>Projects</title>{% endblock %}
 {% block container %}
+<div class="container py-5">
+  <div class="text-center">
+    <a href="{% url 'projects:projects.create'%}" class="btn btn-outline-success px-4 mb-5">Start Your Project Now <i class="fa-regular fa-lightbulb"></i></a>
+  </div>
 
-<div class="container text-center d-flex justify-content-center my-2">
-  <a href="{% url 'projects:projects.create'%}" class="btn btn-outline-dark px-5">Add new product </a>
+    <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
+        {% for project in projects%}
+        <div class="col">
+            <div class="card border-0 shadow-sm bg-light">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                {% for image in project.images.all %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                    <img src="{{image.get_image_url}}" class="d-block w-100 rounded-3" alt="..." style="height: 300px;">
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ project.title|slice:":25" }}</h5>
+                <p class="card-text"><small style="font-weight: 500;">Will Finish At: </small><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
+                <div class="d-flex justify-content-between align-items-end mt-4">
+                    <a href="{% url 'donations.add' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
+                    {% if user == project.created_by %}
+                    <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
+                    {% endif %}
+                    <a href="{% url 'projects:project_detail' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-circle-info"></i></a>
+                  </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-
- {% for project in projects %}
+ {% for project in active_projects %}
     {% if forloop.counter0|divisibleby:3 %}
     <div class="container my-4">
         <div class="row">
@@ -46,6 +75,7 @@
             <a href="{% url 'projects:project_detail' project_id=project.id %}" class="btn btn-primary">Details</a>
             <a href="{% url 'projects:projects.edit' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Edit</a>
             <a href="{% url 'projects:project.delete' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Delete</a>
+            <a href="{% url 'projects:project.cancel' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Cancel </a>
             <a href="{% url 'projects:project.rate' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Rate This Project</a>
         </div>
     </div>
@@ -56,4 +86,39 @@
     {% endif %}
     {% endfor %}
 
+    <hr/>
+    <h1 class="text-secondary text-center"> Cancel Projects</h1>
+   
+    <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
+        {% for project in canceled_projects%}
+        <div class="col">
+            <div class="card border-0 shadow-sm bg-light">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                {% for image in project.images.all %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                    <img src="{{image.get_image_url}}" class="d-block w-100 rounded-3" alt="..." style="height: 300px;">
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ project.title|slice:":25" }}</h5>
+                <p class="card-text"><small style="font-weight: 500;">It was going to end At : </small><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
+
+                <div class=" align-items-center mt-4">
+            
+                    {% if user == project.created_by %}
+        
+                    <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
+                    {% endif %}
+                   
+                  </div>
+                
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

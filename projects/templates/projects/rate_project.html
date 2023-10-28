@@ -1,23 +1,21 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
+{% block title %} <title>Rate Project</title>{% endblock %}
 {% block container %}
-
-<style>
-    .rate:hover{
-        color: white !important;
-    }
-</style>
-
-
-<div class="container w-25 my-5" style="height: 400px;">
-    <h2  style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">{{ project.title }}</h2>
-    <form method="post" style="font-family:'Courier New', Courier, monospace; font-weight:800; ">
-        {% csrf_token %}
-        {{ form.as_p }}
-      <button type="submit" class="btn btn-outline-danger text-dark text-center  mt-3 px-4 rate" style="font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; " >Submit</button>
-    </form>
+<div class="profile container p-5 my-5 shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+      <img src="{% static 'projects/images/rate.jpg' %}" class="col-6" width="300"/>
+      <div class="col-6 pb-5">
+        <form method="post" >
+            {% csrf_token %}
+            {{ form.as_p }}
+          <button type="submit" class="btn btn-outline-success rate">Submit</button>
+          <hr>
+        </form>
+        <div class="text-center" >
+            <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+        </div>
+      </div>
+    </div>
 </div>
-
-<script src="{% static 'projects/js/create.js'%}"></script>
 {% endblock %}

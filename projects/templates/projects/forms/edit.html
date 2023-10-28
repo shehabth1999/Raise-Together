@@ -1,35 +1,79 @@
 {% extends "layouts/base.html" %}
 {% load static %}
 
-
 {% block container %}
-<link rel="stylesheet" href="{% static 'projects/css/create.css'%}">
-<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css'%}">
-
-    <h1 style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">Edit Project: {{ project.title }}</h1>
-    <!-- <form method="post" enctype="multipart/form-data">
+<style>
+.custom-select {
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+</style>
+<link rel="stylesheet" href="{% static 'projects/css/create.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+<div class="container">
+    <h1 style="color: rgb(147, 22, 22); font-family: 'Courier New', Courier, monospace; font-weight: 800; text-align: center;">Edit Project</h1>
+    <form method="post" enctype="multipart/form-data" class="createProject container" style="color: rgb(8, 108, 8); font-family: 'Courier New', Courier, monospace; font-weight: 600;">
         {% csrf_token %}
-        {{ form.as_p }}
-        {{ images_formset.management_form }}
-        {{ images_formset.as_table }}
-        {{ tags_formset.management_form }}
-        {{ tags_formset.as_table }}
-        <button type="submit">Save Changes</button>
-    </form> -->
 
-    <form method="post" enctype="multipart/form-data" class="createProject container"  style="color: rgb(8, 108, 8); font-family:'Courier New', Courier, monospace; font-weight:600; ">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ images_formset.management_form }}
-        {{ images_formset.as_table }}
-        <div >
-            {{ tags_formset.management_form }}
-            {{ tags_formset.as_table }}
+        <div class="form-group">
+            <label for="{{ project_form.title.id_for_label }}">Title:</label>
+            {{ project_form.title }}
         </div>
-        <button type="submit" class="btn btn-outline-success text-dark mt-3" >Submit</button>
+
+        <div class="form-group">
+            <label for="{{ project_form.details.id_for_label }}">Details:</label>
+            {{ project_form.details }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ project_form.total_target.id_for_label }}">Total Target:</label>
+            {{ project_form.total_target }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ project_form.start_time.id_for_label }}">Start Time:</label>
+            {{ project_form.start_time }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ project_form.end_time.id_for_label }}">End Time:</label>
+            {{ project_form.end_time }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ project_form.current_target.id_for_label }}">Current Target:</label>
+            {{ project_form.current_target }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ project_form.category.id_for_label }}">Category:</label>
+            <select class="form-control" name="{{ project_form.category.name }}" id="{{ project_form.category.id_for_label }}" required>
+                {% for category in project_form.category.field.queryset %}
+                    <option value="{{ category.pk }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="id_tags">Tags:</label>
+            <input type="text" class="form-control" name="tags" id="id_tags" placeholder="Enter Multi Tags separated by commas like tag1, tag2, etc..">
+        </div>
+
+        <div class="form-group">
+            <label for="{{ formset.management_form.id_for_label }}"> Images:</label><br>
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form.as_table }}
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-outline-success text-dark mt-3">Save Changes</button>
     </form>
+</div>
 
+<script src="{% static 'projects/js/create.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
 
-    <script src="{% static  'projects/js/create.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
 {% endblock %}
