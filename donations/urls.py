@@ -1,9 +1,8 @@
 
 from django.urls import path
-from donations.views import addDonation, deleteDonation, editDonation, donationHistory
+from donations.views import addDonation,donationHistory,projectDonations
 urlpatterns = [
-    path('', donationHistory, name="donations.history"),
-    path('donate/', addDonation, name="donations.add"),
-    path('delete/<int:id>', deleteDonation, name="donations.delete"),
-    path('edit/<int:id>', editDonation, name="donations.edit")
+    path('<int:project_id>', projectDonations, name="donations.project"),
+    path('history', donationHistory, name="donations.history"),
+    path('donate/<int:project_id>', addDonation, name="donations.add"),
 ]

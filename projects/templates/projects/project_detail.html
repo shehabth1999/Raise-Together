@@ -32,6 +32,8 @@
     <div class="row">
         <div class="col-md-6">
             <a class="btn btn-primary my-3" href="{% url 'projects:add_comment' project_id=project.id %}">Add Comment</a>
+            <a href="{% url 'donations.add' project.id %}" class="btn btn-warning">Donate</a>
+            <a href="{% url 'donations.project' project.id %}" class="btn btn-success">Donations</a>
             {% for comment in comments %}
             <div class="comment-container">
                 <div class="user-info">
@@ -84,14 +86,13 @@
                         {% empty %}
                             No ratings yet.
                         {% endfor %} -->
-                        <p>Average Rating: {{ project.rating }}</p>
+                        <p>Average Rating: {{ project.update_rating }}</p>
                     </div>
                 </div>
             </div>
             <div class="container mt-3">
                 <a class="btn btn-primary" href="/projects/">Back to all projects</a>
                 <a href="{% url 'projects:report_project' project.id %}" class="btn btn-danger">Report</a>
-
             </div>
         </div>
     </div>

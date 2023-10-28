@@ -15,7 +15,7 @@ TagFormSet = inlineformset_factory(Project, Tag, fields=('tag',), extra=1)
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'details', 'total_target', 'start_time', 'end_time', 'created_by', 'current_target']
+        fields = ['title', 'details', 'total_target', 'start_time', 'end_time']
         widgets = {
             'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),

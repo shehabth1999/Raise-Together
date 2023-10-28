@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} <title>Donate</title>  {% endblock %}
+{% block style %}
+{% endblock %}
+{% block container %}
+<div class="row m-5 pt-5 container justify-content-center mx-auto">  
+<form method="post"  enctype="multipart/form-data" class="w-50 text-center">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-success m-5 w-75">Donate <i class="fa-solid fa-hand-holding-dollar fs-5 text-light"></i></button>
+</form>
+</div>
+{% endblock %}

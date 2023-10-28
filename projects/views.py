@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating
 from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
 from django.db.models import Count
+from donations.forms import DonationModelForm
 
 
 def all_project(request):

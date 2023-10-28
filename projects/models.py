@@ -15,7 +15,6 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
 
@@ -26,10 +25,9 @@ class Project(models.Model):
         ratings = self.ratings.all()
         if ratings.exists():
             average_rating = ratings.aggregate(models.Avg('rating'))['rating__avg']
-            self.rating = round(average_rating, 2)
-        else:
-            self.rating = None
-        self.save()
+            average_rating = round(average_rating, 2)
+            return average_rating
+        return None
 
 class Tag(models.Model):
     tag=models.CharField(max_length=100, null=True)
