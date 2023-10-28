@@ -83,6 +83,11 @@ def activate_user(request, uidb64, token):
 class Register(View):
     template_name = 'accounts/registration.html'
     def get(self, request):
+        
+        if request.user.username:
+            print( request.user)
+            return redirect('homepage.index')
+
         form = Registeration()
         return render(request, self.template_name, {'form': form})
     
@@ -102,7 +107,7 @@ class Register(View):
     
 #-----------------------------------------------------------------------------------------
 
-@auth_user_should_not_access
+# @auth_user_should_not_access
 def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -127,8 +132,11 @@ def login_user(request):
         login(request, user)
         return redirect('homepage.index')
 
-    else:
-        return render(request, 'registration/login.html')
+    if request.user.username:
+        print( request.user)
+        return redirect('homepage.index')
+    
+    return render(request, 'registration/login.html')
     
     
 def logout_user(request):
