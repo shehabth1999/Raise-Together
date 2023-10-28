@@ -1,10 +1,21 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %} <title>Donate</title>  {% endblock %}
+{% block title %} <title>Add Donations</title>{% endblock %}
 {% block container %}
-<form method="post"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+        <img src="{% static 'projects/images/donations.jpg' %}" class="col-6" width="300" />
+        <div class="col-6">
+            <form method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-success mt-3">Submit</button>
+            </form>
+            <hr>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

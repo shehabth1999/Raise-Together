@@ -1,25 +1,30 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
-
-
+{% block title %} <title>Add Project</title>{% endblock %}
 {% block container %}
-<link rel="stylesheet" href="{% static 'projects/css/create.css'%}">
-<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css'%}">
-    <h1 style="color:rgb(147, 22, 22); font-family:'Courier New', Courier, monospace; font-weight:800; text-align: center; ">Create a New Project</h1>
-    <form method="post" enctype="multipart/form-data" class="createProject container"  style="color: rgb(8, 108, 8); font-family:'Courier New', Courier, monospace; font-weight:600; ">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ images_formset.management_form }}
-        {{ images_formset.as_table }}
-        <div >
-            {{ tags_formset.management_form }}
-            {{ tags_formset.as_table }}
+<div class="container p-5 my-5  shadow rounded-3 bg-white"  style="width: 1000px;">
+    <h1 class="pb-4 text-center">Create a New Project</h1>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-10 d-flex justify-content-center">
+            <img src="{% static 'projects/images/add_project.jpg' %}" height="300"/>
         </div>
-        <button type="submit" class="btn btn-outline-success text-dark mt-3" >Submit</button>
-    </form>
-
-
-    <script src="{% static  'projects/js/create.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
+        <div class="col-10">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{ images_formset.management_form }}
+                {{ images_formset.as_table }}
+                <div >
+                    {{ tags_formset.management_form }}
+                    {{ tags_formset.as_table }}
+                </div>
+                <button type="submit" class="btn btn-outline-success text-center">Submit</button>
+                <hr>
+            </form>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

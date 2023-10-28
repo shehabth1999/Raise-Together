@@ -8,8 +8,9 @@
       {% for project in top_rated_projects %}
       <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %} position-relative ">
         <img src="{{ project.images.first.get_image_url }}" class="d-block w-100 h-100" alt="...">
-        <div class="carousel-caption d-none d-md-block text-success py-0">
-          <a href="{% url 'project_detail' project.id %}" class="carousel-link btn text-success fs-4"><i class="fa-solid fs-5 fa-circle-info"></i></a>
+        <div class="carousel-caption d-none d-md-block text-light py-0">
+          <h3>{{project.title}}</h3>
+          <a href="{% url 'projects:project_detail' project.id %}" class="carousel-link btn text-light fs-4"><i class="fa-solid fs-5 fa-circle-info"></i></a>
         </div>
       </div>
       {% endfor %}
@@ -47,14 +48,14 @@
             
             <div class="card-body">
               <h5 class="card-title"><span class="truncated">{{ project.title|slice:":20" }}</span></h5>
-              <p class="card-text"><span style="font-weight: 500;">Will Finish At: </span><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
+              <p class="card-text "><small style="font-weight: 500;">Will Finish At: </small ><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
               <div class="d-flex justify-content-between align-items-end mt-4">
-                <a href="" class="btn text-success p-0"><i class="fa-solid fs-5 fa-hand-holding-dollar"></i></a>
+                <a href="{% url 'donations.add' %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
                 {% if user == project.created_by %}
-                <a href="" class="btn text-success p-0"><i class="fa-regular fs-5 fa-pen-to-square"></i></a>
-                <a href="" class="btn text-danger p-0"><i class="fa-solid fs-5 fa-trash"></i></a>
+                <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
                 {% endif %}
-                <a href="{% url 'project_detail' project.id %}" class="btn text-success p-0"><i class="fa-solid fs-5 fa-circle-info"></i></a>
+                <a href="{% url 'projects:project_detail' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-circle-info"></i></a>
               </div>
             </div>
           </div>
@@ -83,14 +84,14 @@
             
             <div class="card-body">
               <h5 class="card-title"><span class="truncated">{{ project.title|slice:":20" }}</span></h5>
-              <p class="card-text"><span style="font-weight: 500;">Finish At: </span><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
+              <p class="card-text"><small style="font-weight: 500;">Finish At: </small><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
               <div class="d-flex justify-content-between align-items-end mt-4">
-                <a href="" class="btn text-success p-0"><i class="fa-solid fs-5 fa-hand-holding-dollar"></i></a>
+                <a href="{% url 'donations.add' %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
                 {% if user == project.created_by %}
-                <a href="" class="btn text-success p-0"><i class="fa-regular fs-5 fa-pen-to-square"></i></a>
-                <a href="" class="btn text-danger p-0"><i class="fa-solid fs-5 fa-trash"></i></a>
+                <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
                 {% endif %}
-                <a href="{% url 'project_detail' project.id %}" class="btn text-success p-0"><i class="fa-solid fs-5 fa-circle-info"></i></a>
+                <a href="{% url 'projects:project_detail' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-circle-info"></i></a>
               </div>
             </div>
           </div>
