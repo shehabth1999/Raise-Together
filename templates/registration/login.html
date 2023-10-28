@@ -12,11 +12,12 @@
     <div class="col-6 pb-5">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %} 
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
         
-        <input type="email" name="email" required>
-        <input type="password" name="password" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
         
-
         <div class="d-flex justify-content-evenly align-items-center mt-4">
           <button
           type="submit"
@@ -25,7 +26,7 @@
           Login
         </button>
         <a
-          href="{% url 'account.create' %}"
+          href="{% url 'password_reset' %}"
           class="text-decoration-none text-success"
           >Forgot Password?</a
         >

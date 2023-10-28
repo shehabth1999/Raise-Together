@@ -196,3 +196,34 @@ class Delete_Profile(DeleteView):
         return self.request.user #return the currently logged-in user.    
 
 #-----------------------------------------------------------------------------------------    
+# def send_reset_password_email(user, request):
+#         current_site = get_current_site(request)
+#         email_subject = 'Reset Your Password'
+#         email_body = render_to_string('registration/reset_password.html', {
+#             'user': user,
+#             'domain': current_site.domain,
+#             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#             'token': generate_token.make_token(user)
+#         })
+#         email = EmailMessage(subject=email_subject, body=email_body,
+#                              from_email=settings.EMAIL_FROM_USER,
+#                              to=[user.email]
+#                              )
+#         print("Email sent successfully.")
+# #-----------------------------------------------------------------------------------------
+
+# def forget_password_page(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+
+#         try:
+#             user = MyUser.objects.get(email=email)
+#             send_reset_password_email(user, request)
+#             messages.success(request, f'We sent you an email to reset your password: {user.email}')
+#             return redirect('login')
+
+#         except MyUser.DoesNotExist:
+#             messages.error(request, f'The Email {email} did not match any account, please try again')
+#             return redirect('account.forget.password')
+
+#     return render(request, 'registration/forget_password_page.html')
