@@ -64,11 +64,11 @@ def activate_user(request, uidb64, token):
     uid = force_bytes(urlsafe_base64_decode(uidb64))
     user = MyUser.objects.get(pk=uid)
     if user and generate_token.check_token(user, token):
-        expiration_time = timezone.timedelta(minutes=1)
+        expiration_time = timezone.timedelta(minutes=1440)
         print("Current Time:", timezone.now())
         print("Activation Link Creation Time:", user.activation_link_created_at)
         
-        if user.activation_link_created_at and timezone.now() - user.activation_link_created_at < expiration_time:
+        if user.activation_link_created_at and timezone.now() - user.activation_link_created_at > expiration_time:
             print("Activation link has expired.")
             return render(request, 'registration/activate-failed.html', {"user": user, "reason": "Activation link expired"})
         
