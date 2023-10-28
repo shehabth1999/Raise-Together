@@ -6,6 +6,11 @@ from categories.models import Category
 
 
 class Project(models.Model):
+    STATUS_CHOICES = [
+        ('Active', 'Active'),
+        ('Canceled', 'Canceled'),
+        ('Completed', 'Completed'),
+    ]
     title = models.CharField(max_length=200)
     details = models.TextField(max_length=300)
     total_target = models.DecimalField(max_digits=10, decimal_places=2, default=250000)
@@ -18,6 +23,7 @@ class Project(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     created_by = models.ForeignKey(MyUser, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Active')
 
     def __str__(self):
         return self.title

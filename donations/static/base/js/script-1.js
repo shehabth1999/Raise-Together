@@ -1,16 +1,24 @@
+spans = document.querySelectorAll('span');
+for (var j = 0; j < spans.length; j++) {
+    spans[j].classList.add('d-block');
+}
+
+
 labels = document.querySelectorAll('label');
 
 for (var i = 0; i < labels.length; i++) {
-    labels[i].classList.add('d-none');
-    labels[i].classList.add('mx-3')
+    labels[i].classList.add('form-label');
+    labels[i].classList.add('mt-3')
 }
 
 inputs = document.querySelectorAll('input');
 for (var i = 0; i < inputs.length; i++) {
     inputs[i].classList.add('form-control');
-    inputs[i].classList.add('me-3', 'px-3');
     inputs[i].removeAttribute('required');
 }
+select= document.querySelector('select')
+
+select.classList.add('form-control')
 
 divs = document.getElementsByClassName("form_element")
 for (var d =0; d < divs.length; d++){

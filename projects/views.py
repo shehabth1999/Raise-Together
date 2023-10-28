@@ -1,12 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating
+from donations.models import Donation
 from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
-from django.db.models import Count
+from django.db.models import Count ,Sum
+from decimal import Decimal
+from django.http import request 
+from django.contrib.auth.decorators import login_required
 
 
-def all_project(request):
-    projects = Project.objects.all()  # Retrieve all Project objects
-    return render(request, 'projects/all_project.html', {'projects': projects})
+@login_required
+def allProjects(request):
+
+    active_projects = Project.objects.filter(status='Active')
+    canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
+
+    return render(request, 'projects/all_project.html', context= {'active_projects': active_projects,'canceled_projects': canceled_projects})
+
 
 
 def project_detail(request, project_id):
@@ -57,7 +66,7 @@ def upload_multi_picture(request, project_id):
     return render(request, 'projects/upload_multi_picture.html', {'project': project, 'form': form})
 
 
-
+@login_required()
 def create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -75,6 +84,7 @@ def create_project(request):
         tags_formset = TagFormSet(prefix='tags')
     return render(request, 'projects/forms/create.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
 
+@login_required()
 def editForm(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
@@ -95,9 +105,9 @@ def editForm(request, project_id):
 
 
 
-
+@login_required()
 def deleteProject(request, id):
-    project = Project.objects.get(id=id)
+    project = Project.objects.get(id=id ,created_by=request.user)
 
     if request.method == 'POST':
         project.delete()
@@ -105,6 +115,37 @@ def deleteProject(request, id):
     return render(request,
                 'projects/forms/delete.html',
                 {'project': project})
+
+
+
+@login_required
+def cancelProject(request, project_id):
+    project = get_object_or_404(Project, id=project_id, created_by=request.user)
+
+    # Calculate the donation threshold (25% of the target)
+    decimal_value = Decimal('0.25')
+    donation_threshold = project.total_target * decimal_value
+
+    # Calculate the total donations for the project
+    total_donations = project.current_target  # Assuming current_target is a field of the Project model
+
+    if request.method == 'POST':
+        if total_donations is not None and total_donations >= donation_threshold:
+            # Donations exceed or equal the threshold, so the project cannot be deleted
+            return redirect('projects:project_detail', project_id=project_id)
+
+        # If the conditions are met, cancel the project
+        project.status = 'Canceled'
+        project.save()
+        return redirect('projects:all_project')
+    
+    return render(request,
+                'projects/forms/cancel.html',
+                {'project': project})
+
+    # # Redirect to a success page or an appropriate page
+    # return redirect('projects:all_project')
+
 
 
 def add_comment(request, project_id):
@@ -153,6 +194,7 @@ def report_comment(request, comment_id):
 
     return render(request, 'projects/report_comment.html')
 
+@login_required()
 def rate_project(request, project_id):
     project = Project.objects.get(pk=project_id)
     form = RatingForm()
