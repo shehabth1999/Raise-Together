@@ -1,20 +1,22 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
-
+{% block title %} <title>Report Comment</title>{% endblock %}
 {% block container %}
-
-<div class="container my-4">
-
-  <h3 class="text-danger">Report Comment</h3>
-<form method="post">
-  {% csrf_token %}
-  <input class="form-control form-control-lg" type="text" name="report_comment" placeholder="Add report" style="height: 100px; width: 500px;">
-  <button class="btn btn-primary my-4" type="submit">Submit Report</button>
-</form>
-
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+  <div class="row align-items-center">
+      <img src="{% static 'projects/images/report_comment(1).jpg' %}" class="col-6" width="300" />
+      <div class="col-6">
+          <form method="post">
+            {% csrf_token %}
+            <label for="report_comment" class="form-label">Report Comment</label>
+            <textarea class="form-control mb-3" id="report_comment" rows="3"   name="report_comment"></textarea>
+            <button type="submit" class="btn btn-outline-success text-center">Sent Your Report</button>
+            <hr>
+          </form>
+          <div class="text-center" >
+            <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+          </div>
+      </div>
+  </div>
 </div>
-
-  <script src="{% static  'projects/js/create.js' %}"></script>
-  <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
 {% endblock %}

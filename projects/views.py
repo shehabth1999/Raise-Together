@@ -3,6 +3,7 @@ from .models import Project, Multi_Picture, Comment, CommentReport, Rating
 from .forms import MultiPictureForm, ProjectForm, MultiPictureFormSet, TagFormSet, ProjectReportForm, RatingForm
 from django.db.models import Count
 from donations.forms import DonationModelForm
+from django.contrib.auth.decorators import login_required
 
 
 def all_project(request):
@@ -26,20 +27,26 @@ def project_detail(request, project_id):
         .filter(tags__tag__in=current_tags) \
         .annotate(tag_count=Count('tags__tag')) \
         .order_by('-tag_count')[:4]
+    
+    current_target = project.current_target
+    total_target = project.total_target
+
+    percentage = (current_target / total_target) * 100
 
 
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
-        'similar_projects': similar_projects
+        'similar_projects': similar_projects,
+        'percentage': percentage
     })
 
 
 
 
 
-
+@login_required
 def upload_multi_picture(request, project_id):
     project = Project.objects.get(pk=project_id)
 
@@ -49,7 +56,7 @@ def upload_multi_picture(request, project_id):
             new_image = form.save(commit=False)
             new_image.project = project
             new_image.save()
-            return redirect('project_detail', project_id=project_id)
+            return redirect(f'/projects/project_detail/{project_id}', project_id=project_id)
 
     else:
         form = MultiPictureForm()
@@ -58,12 +65,14 @@ def upload_multi_picture(request, project_id):
     return render(request, 'projects/upload_multi_picture.html', {'project': project, 'form': form})
 
 
-
+@login_required
 def create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
-            project = form.save()
+            project = form.save(commit=False)
+            project.created_by = request.user
+            project.save()
             images_formset = MultiPictureFormSet(request.POST, request.FILES, instance=project, prefix='images')
             tags_formset = TagFormSet(request.POST, instance=project, prefix='tags')
             if images_formset.is_valid() and tags_formset.is_valid():
@@ -76,6 +85,7 @@ def create_project(request):
         tags_formset = TagFormSet(prefix='tags')
     return render(request, 'projects/forms/create.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
 
+@login_required
 def editForm(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
@@ -96,7 +106,7 @@ def editForm(request, project_id):
 
 
 
-
+@login_required
 def deleteProject(request, id):
     project = Project.objects.get(id=id)
 
@@ -108,6 +118,7 @@ def deleteProject(request, id):
                 {'project': project})
 
 
+@login_required
 def add_comment(request, project_id):
     if request.method == 'POST':
         content = request.POST.get('content')
@@ -122,7 +133,7 @@ def add_comment(request, project_id):
 
 
 
-
+@login_required
 def report_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
@@ -140,7 +151,7 @@ def report_project(request, project_id):
 
 
 
-
+@login_required
 def report_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
@@ -154,6 +165,7 @@ def report_comment(request, comment_id):
 
     return render(request, 'projects/report_comment.html')
 
+@login_required
 def rate_project(request, project_id):
     project = Project.objects.get(pk=project_id)
     form = RatingForm()
@@ -172,6 +184,7 @@ def rate_project(request, project_id):
 
     return render(request, 'projects/rate_project.html', {'form': form, 'project': project})
 
+@login_required
 def myprojects(request):
     projects = Project.objects.filter(created_by = request.user)  
     return render(request, 'projects/all_project.html', {'projects': projects})
