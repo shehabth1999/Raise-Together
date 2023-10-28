@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating, Tag
-from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm
+from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm, CommentReplyForm
 from django.db.models import Count, Sum
 from django.forms import modelformset_factory
 from decimal import Decimal
@@ -228,3 +228,21 @@ def rate_project(request, project_id):
 def myprojects(request):
     projects = Project.objects.filter(created_by = request.user)  
     return render(request, 'projects/all_project.html', {'projects': projects})
+
+
+# Comment Replay 
+def add_comment_reply(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'POST':
+        reply_form = CommentReplyForm(request.POST)
+        if reply_form.is_valid():
+            reply = reply_form.save(commit=False)
+            reply.comment = comment
+            reply.user = request.user
+            reply.save()
+            return redirect('projects:project_detail', project_id=comment.project.id)
+    else:
+        reply_form = CommentReplyForm()
+
+    return render(request, 'projects/add_comment_reply.html', {'reply_form': reply_form, 'comment_id': comment_id})
