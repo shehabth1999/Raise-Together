@@ -12,8 +12,11 @@
     <div class="col-6 pb-5">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %} 
-        {{ form }}
         
+        <input type="email" name="email" required>
+        <input type="password" name="password" required>
+        
+
         <div class="d-flex justify-content-evenly align-items-center mt-4">
           <button
           type="submit"

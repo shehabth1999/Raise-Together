@@ -2,6 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import MyUser
 from django.core.validators import RegexValidator
+from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
 
 class Registeration(UserCreationForm):
     phone = forms.CharField(
@@ -31,3 +35,27 @@ class Registeration(UserCreationForm):
 
         for field_name in self.fields:
             self.fields[field_name].help_text = ''
+
+
+class EditProfile(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields =  [ "first_name","last_name","phone","image","birth_date","facebook_profile","country"]
+        widgets = {
+            'birth_date': forms.DateTimeInput(attrs={'type': 'date'}),
+        }
+    def clean_Birthdate(self):
+        birthdate = self.cleaned_data['Birthdate']
+        if birthdate > timezone.now().date():
+            raise ValidationError("Birthdate cannot be in the future.")
+        return birthdate
+
+
+
+
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    class Meta:
+        model = MyUser
+        fields = ['old_password', 'new_password1', 'new_password2']

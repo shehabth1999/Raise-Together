@@ -30,7 +30,7 @@ The web app should include the following features:
 		- He can have extra optional info other than the info he added while registration (Birthdate, facebook profile, country) --------------
 		- User can delete his account (Note that there must be a confirmation message before deleting) ok
 		- Bonus: The user must enter his password to delete his account -----------------------------------------------------------------------
-
+ 
 
 2 - Projects: 
 	- The user can create a project fundraising campaign which contains: 

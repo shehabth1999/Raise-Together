@@ -5,21 +5,25 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView , DeleteView, UpdateView
 from accounts.models import MyUser
-from accounts.forms import  Registeration
+from accounts.forms import  Registeration ,EditProfile , CustomPasswordChangeForm
 from django.views import View
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .decorators import auth_user_should_not_access
-from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseBadRequest
+import re
+from django.contrib.auth import update_session_auth_hash
+from datetime import datetime
+
+
+
 
 # Create your views here.
 
@@ -54,7 +58,7 @@ def send_activation_email(user, request):
     #     EmailThread(email).start()
 
 def activate_user(request, uidb64, token):
-    uid = force_text(urlsafe_base64_decode(uidb64))
+    uid = force_bytes(urlsafe_base64_decode(uidb64))
     user = MyUser.objects.get(pk=uid)
     if user and generate_token.check_token(user, token):
         expiration_time = timezone.timedelta(minutes=1)
@@ -97,32 +101,33 @@ class Register(View):
 
 @auth_user_should_not_access
 def login_user(request):
-    form = AuthenticationForm()
-
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        # Basic email format check using regex
+        if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email):
+            messages.error(request, 'Email Is Not Vaild')
+            return redirect('login')
+        
+        user = authenticate(request, username=email, password=password)
+        
+        if user and not user.is_email_verified:
+            messages.error(request, 'Email is not verified, please check your email inbox')
+            return redirect('login')
 
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+        if not user:
+            messages.error(request, 'Invalid credentials, try again')
+            return redirect('login')
+        
+        
+        login(request, user)
+        return redirect('homepage.index')
 
-            if user and not user.is_email_verified:
-                messages.error(request, 'Email is not verified, please check your email inbox')
-                return render(request, 'registration/login.html', {'form': form}, status=HttpResponseBadRequest.status_code)
-
-            if not user:
-                messages.error(request, 'Invalid credentials, try again')
-                return render(request, 'registration/login.html', {'form': form}, status=HttpResponseBadRequest.status_code)
-            
-            login(request, user)
-            messages.success(request, f'Welcome {user.username}')
-            return redirect(reverse('homepage.index'))
-
-    return render(request, 'registration/login.html', {'form': form})
-
-#-----------------------------------------------------------------------------------------
-
+    else:
+        return render(request, 'registration/login.html')
+    
+    
 def logout_user(request):
     logout(request)
     messages.add_message(request, messages.SUCCESS,
@@ -138,18 +143,56 @@ class Profile(DetailView):
     def get_object(self, queryset=None):
         return self.request.user #return the currently logged-in user.
 
-class Edit_Profile(UpdateView):
-    model= MyUser
-    template_name = 'registration/edit_profile.html'
-    form_class = Registeration
-    success_url = reverse_lazy("login")
-    def get_object(self, queryset=None):
-        return self.request.user #return the currently logged-in user.
+#-----------------------------------------------------------------------------------------
 
+# class Edit_Profile(UpdateView):
+#     model= MyUser
+#     template_name = 'registration/edit_profile.html'
+#     form_class = EditProfile
+#     success_url = reverse_lazy("profile.view")
+#     def get_object(self, queryset=None):
+#         return self.request.user #return the currently logged-in user.
+    
+#-----------------------------------------------------------------------------------------
+
+def edit_profile(request):
+    if request.method == "POST":
+        if request.FILES :
+            form = EditProfile(request.POST, request.FILES, instance=request.user)
+        else:
+            form = EditProfile(request.POST, instance=request.user)
+        if form.is_valid():  
+            if request.POST["birth_date"] :
+                birth_date_str = request.POST.get("birth_date")
+                birth_date = datetime.strptime(birth_date_str, "%Y-%m-%d").date() 
+                if birth_date > timezone.now().date():
+                    messages.warning(request, 'Please enter a valid date of birth!')
+                    return render(request, "registration/edit_profile.html", {'form': form})
+            form.save()
+            print(request.POST["birth_date"])
+            return redirect('profile.view') 
+    else:
+        form = EditProfile(instance=request.user) 
+    return render(request, "registration/edit_profile.html", {'form': form})
+
+#-----------------------------------------------------------------------------------------
+    
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('profile.view')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'registration/edit_password.html', {'form': form})
+#-----------------------------------------------------------------------------------------
 class Delete_Profile(DeleteView):
     model= MyUser
     template_name = 'registration/delete_profile.html'
     success_url = reverse_lazy("account.create")
     def get_object(self, queryset=None):
         return self.request.user #return the currently logged-in user.    
-    
+
+#-----------------------------------------------------------------------------------------    

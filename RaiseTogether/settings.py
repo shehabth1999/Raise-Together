@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'donations.apps.DonationsConfig',
     'categories.apps.CategoriesConfig',
     'accounts.apps.AccountsConfig',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -165,4 +166,10 @@ EMAIL_USE_TLS = False
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_DEBUG = True
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Keep the ModelBackend for fallback
+]
+
 

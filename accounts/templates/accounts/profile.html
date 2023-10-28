@@ -5,29 +5,24 @@
     <div class="col-lg-4">
       <div class="card mb-4">
         <div class="card-body text-center">
-          <img {% if user.image == "None" %} 
-          src="{% static 'accounts/images/profile.png' %}" 
-          {% else %} 
-          src="{{ user.image.url}}" 
-          {% endif %} 
+          <img
+            src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'accounts/images/profile.png' %}{% endif %}"
+            alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px;" />
 
-          alt="avatar" class="rounded-circle img-fluid"
-          style="width: 150px; height: 150px;" />
           <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>
           <div class="d-flex justify-content-center mb-2">
-            <a
-              href="{% url 'profile.edit' %}"
-              type="button"
-              class="btn btn-outline-success"
-              >Edit Profile</a
-            >
-            <a
-              href="{% url 'profile.delete' %}"
-              type="button"
-              class="btn btn-outline-danger ms-1"
-              >Delete Profile</a
-            >
+            <a href="{% url 'profile.edit' %}" type="button" class="btn btn-outline-success">Edit Profile</a>
+            <a href="{% url 'profile.delete' %}" type="button" class="btn btn-outline-danger ms-1">Delete Profile</a>
+
           </div>
+          {% if user.facebook_profile %}
+          <a class="btn btn-outline-primary" href="{{ user.facebook_profile }}" target="_blank">
+            <i class="fab fa-facebook-square" style="font-size: 1.5em;"></i>
+            Visit Facebook 
+        </a>
+        {% else %}
+            No Facebook profile provided
+        {% endif %}
         </div>
       </div>
     </div>
@@ -76,6 +71,24 @@
             </div>
             <div class="col-sm-9">
               <p class="text-muted mb-0">{{user.phone}}</p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">birth_data</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user.birth_date}}</p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">contry</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{user.country}}</p>
             </div>
           </div>
         </div>
