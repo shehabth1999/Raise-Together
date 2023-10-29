@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating, Tag
 from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm, CommentReplyForm
 from django.db.models import Count, Sum
@@ -65,7 +65,13 @@ def create_project(request):
                     img = Multi_Picture(project=project, image=image)
                     img.save()
 
+            print(project_form)
             return redirect('projects:project_detail', project_id=project.id)
+        else:
+            # Print errors to console or use Django messages framework
+            print("project_form.errors" , project_form.errors)
+            print("formset.errors" , formset.errors)
+            return HttpResponse("er")
     else:
         project_form = ProjectForm()
         formset = ImageFormSet(queryset=Multi_Picture.objects.none())
