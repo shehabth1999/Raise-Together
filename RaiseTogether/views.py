@@ -8,7 +8,7 @@ from django.db.models import Avg
 
 def index(request):
   categories= Category.get_all_categories()
-  top_rated_projects = Project.objects.filter(rating__isnull=False, end_time__gt=timezone.now()).order_by('-ratings__rating')[:5]
+  top_rated_projects = Project.objects.exclude(rating=None).order_by('-rating')[:5]
   latest_projects = Project.objects.order_by('-created_at')[:5]
   latest_featured_projects = Project.objects.filter(is_featured=True).order_by('-created_at')[:5]
   return render(request, 'homepage/index.html', context={"categories":categories, 'latest_projects': latest_projects, 'latest_featured_projects': latest_featured_projects, 'top_rated_projects':top_rated_projects})

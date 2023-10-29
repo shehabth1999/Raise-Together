@@ -25,7 +25,7 @@
     {% endblock %}
 </head>
 <body>
-  <nav class="header navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="header navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
     <div class="container-fluid">
       <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto">
@@ -99,7 +99,7 @@
   </nav>
   {% if messages %}
     {% for message in messages %}
-      <div class="container-fluid p-0">
+      <div class="py-3 mx-auto" style="width: 500px;">
         <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
           {{ message }}
         </div>
@@ -119,7 +119,7 @@
       <a href="" class="me-4 link-secondary"><i class="fa-brands fa-google"></i></a>
       <a href="" class="me-4 link-secondary"> <i class="fa-brands fa-instagram"></i></a>
       <a href="" class="me-4 link-secondary"><i class="fa-brands fa-linkedin"></i></a>
-      <a href="" class="me-4 link-secondary"><i class="fa-brands fa-github"></i></a>
+      <a href="https://github.com/shehabth1999/Raise-Together.git" class="me-4 link-secondary"><i class="fa-brands fa-github"></i></a>
     </div>
   </section>
   <section class="">
@@ -138,23 +138,23 @@
           <h6 class="text-uppercase fw-bold mb-3">Owners</h6>
           <div class="row">
             <div class="col col-6">
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Shehab</a></p>
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Fraag</a></p>
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Mager</a></p>
+              <p><a href="https://www.linkedin.com/in/shehab-tharwat" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Shehab</a></p>
+              <p><a href="https://www.linkedin.com/in/osamaelsaied" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Fraag</a></p>
+              <p><a href="https://www.linkedin.com/in/osamafraag" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Mager</a></p>
             </div>
             <div class="col col-6">
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Reham</a></p>
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Sara</a></p>
-              <p><a href="#!" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Sarah</a></p>
+              <p><a href="https://www.linkedin.com/in/reham-taher-b14a1718b" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Reham</a></p>
+              <p><a href="https://www.linkedin.com/in/sarasaraya" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Sara</a></p>
+              <p><a href="https://www.linkedin.com/in/sarahmohamed73" class="text-reset text-decoration-none"><i class="fa-solid fa-user text-secondary"></i> Sarah</a></p>
             </div>
           </div>
         </div>
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-2 text-center">
           <h6 class="text-uppercase fw-bold mb-3">Useful links</h6>
-          <p class=" mb-1"><a href="#!" class="text-reset btn btn-outline-dark border-0 w-50">Home</a></p>
+          <p class=" mb-1"><a href="{% url 'homepage.index' %}" class="text-reset btn btn-outline-dark border-0 w-50">Home</a></p>
           <p class=" mb-1"><a href="#!" class="text-reset btn btn-outline-dark border-0 w-50">Help</a></p>
-          <p class=" mb-1"><a href="#!" class="text-reset btn btn-outline-dark border-0 w-50">Donate</a></p>
-          <p class=" mb-1"><a href="#!" class="text-reset btn btn-outline-dark border-0 w-50">Settings</a></p>
+          <p class=" mb-1"><a href="{% url 'projects:all_project' %}" class="text-reset btn btn-outline-dark border-0 w-50">Donate</a></p>
+          <p class=" mb-1"><a href="{% url 'profile.view' %}" class="text-reset btn btn-outline-dark border-0 w-50">Profile</a></p>
         </div>
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-2">
           <h6 class="text-uppercase fw-bold mb-3">Contact</h6>

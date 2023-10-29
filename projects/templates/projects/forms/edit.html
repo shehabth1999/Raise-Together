@@ -1,79 +1,76 @@
-{% extends "layouts/base.html" %}
+{% extends 'layouts/base.html' %}
 {% load static %}
-
+{% block title %}Edit Project{% endblock %}
 {% block container %}
-<style>
-.custom-select {
-    background-color: #f3f3f3;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-}
-</style>
-<link rel="stylesheet" href="{% static 'projects/css/create.css' %}">
-<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-<div class="container">
-    <h1 style="color: rgb(147, 22, 22); font-family: 'Courier New', Courier, monospace; font-weight: 800; text-align: center;">Edit Project</h1>
-    <form method="post" enctype="multipart/form-data" class="createProject container" style="color: rgb(8, 108, 8); font-family: 'Courier New', Courier, monospace; font-weight: 600;">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label for="{{ project_form.title.id_for_label }}">Title:</label>
-            {{ project_form.title }}
+<div class="container p-5 my-5  shadow rounded-3 bg-white"  style="width: 1000px;">
+    <h1 class="pb-4 text-center">Edit Project</h1>
+    <div class="row align-items-center justify-content-center">
+        <div class="col-10 d-flex justify-content-center">
+            <img src="{% static 'projects/images/edit_project.jpg' %}" height="300"/>
         </div>
+        <div class="col-10">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-        <div class="form-group">
-            <label for="{{ project_form.details.id_for_label }}">Details:</label>
-            {{ project_form.details }}
+                <div class="form-group">
+                    <label for="{{ project_form.title.id_for_label }}">Title:</label>
+                    {{ project_form.title }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.details.id_for_label }}">Details:</label>
+                    {{ project_form.details }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.total_target.id_for_label }}">Total Target:</label>
+                    {{ project_form.total_target }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.start_time.id_for_label }}">Start Time:</label>
+                    {{ project_form.start_time }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.end_time.id_for_label }}">End Time:</label>
+                    {{ project_form.end_time }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.current_target.id_for_label }}">Current Target:</label>
+                    {{ project_form.current_target }}
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ project_form.category.id_for_label }}">Category:</label>
+                    <select class="form-control" name="{{ project_form.category.name }}" id="{{ project_form.category.id_for_label }}" required>
+                        {% for category in project_form.category.field.queryset %}
+                            <option value="{{ category.pk }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="id_tags">Tags:</label>
+                    <input type="text" class="form-control" name="tags" id="id_tags" placeholder="Enter Multi Tags separated by commas like tag1, tag2, etc..">
+                </div>
+        
+                <div class="form-group">
+                    <label for="{{ formset.management_form.id_for_label }}"> Images:</label><br>
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                        {{ form.as_table }}
+                    {% endfor %}
+                </div>
+        
+                <button type="submit" class="btn btn-outline-success text-center mt-3">Save Changes</button>
+                <hr>
+            </form>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="{{ project_form.total_target.id_for_label }}">Total Target:</label>
-            {{ project_form.total_target }}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ project_form.start_time.id_for_label }}">Start Time:</label>
-            {{ project_form.start_time }}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ project_form.end_time.id_for_label }}">End Time:</label>
-            {{ project_form.end_time }}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ project_form.current_target.id_for_label }}">Current Target:</label>
-            {{ project_form.current_target }}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ project_form.category.id_for_label }}">Category:</label>
-            <select class="form-control" name="{{ project_form.category.name }}" id="{{ project_form.category.id_for_label }}" required>
-                {% for category in project_form.category.field.queryset %}
-                    <option value="{{ category.pk }}">{{ category }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="id_tags">Tags:</label>
-            <input type="text" class="form-control" name="tags" id="id_tags" placeholder="Enter Multi Tags separated by commas like tag1, tag2, etc..">
-        </div>
-
-        <div class="form-group">
-            <label for="{{ formset.management_form.id_for_label }}"> Images:</label><br>
-            {{ formset.management_form }}
-            {% for form in formset %}
-                {{ form.as_table }}
-            {% endfor %}
-        </div>
-
-        <button type="submit" class="btn btn-outline-success text-dark mt-3">Save Changes</button>
-    </form>
+    </div>
 </div>
-
-<script src="{% static 'projects/js/create.js' %}"></script>
-<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-
 {% endblock %}

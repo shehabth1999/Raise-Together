@@ -1,10 +1,10 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %} <title>{{project.title}}</title>{% endblock %}
+{% block title %} {{project.title}}{% endblock %}
 {% block container %}
 <div class="container py-5">
     <div class="row justify-content-evenly">
-        <h3 class="mb-4 ms-5 ps-4">{{project.title}}</h3>
+        <h3 class="mb-4" style="margin-left: 9rem;">{{project.title}}</h3>
         <div class="col-6">
             <!-- Images Slider -->
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" style="height: 500px;">
@@ -28,6 +28,8 @@
                 <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0 mx-4"><i class="fa-regular fa-pen-to-square"></i></a>
                
                 <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0 mx-4"><i class="fa-solid fa-x"></i></a>
+
+                <a href="{% url 'projects:project.cancel' project.id%}" class="btn text-danger p-0 mx-4"><i class="fa-solid fa-ban"></i></a>
                 {% endif %}
                 
             </p>
@@ -99,7 +101,7 @@
             </div>
         </div>
         <!-- --------------------------------------------------- -->
-        <div class="col-4 p-4 shadow" style="border-radius: 20px; height: 1000px; max-height: 1500px;">
+        <div class="col-4 p-4 shadow" style="border-radius: 20px; height: 830px; max-height: 1500px;">
             <!-- Donation -->
             <div class="donation mb-3">
                 <p class="fs-4 d-inline-block mb-0">${{project.current_target}}</p>
@@ -126,7 +128,7 @@
             </div>
 
             <div class="donations my-4">
-                {% for donation in  project.donations.all %}
+                {% for donation in project.donations.all|slice:":3" %}
                 <div class="comment mb-5">
                     <div class="user-info">
                         <span>
@@ -140,6 +142,11 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if project.donations.all %} 
+                <div class="text-center">
+                    <a href="{% url 'donations.project' project.id %}" class="btn btn-outline-success">See All Donations</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

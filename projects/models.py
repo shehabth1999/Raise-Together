@@ -20,9 +20,9 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(MyUser,null=True ,  blank=True, on_delete=models.CASCADE, default=None)
+    created_by = models.ForeignKey(MyUser,null=True , blank=True, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
-    rating = models.IntegerField(null=True, blank=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Active',blank=True)
 
     def __str__(self):
@@ -38,7 +38,11 @@ class Project(models.Model):
             return average_rating
         self.rating = None
         return None
-
+    
+    @classmethod
+    def get(cls,id) :
+        return cls.objects.get(id=id)
+    
 class Tag(models.Model):
     tag=models.CharField(max_length=100, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tags',null=True)

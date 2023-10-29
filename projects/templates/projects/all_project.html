@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %} <title>Projects</title>{% endblock %}
+{% block title %}Projects{% endblock %}
 {% block container %}
 <div class="container py-5">
   <div class="text-center">
@@ -8,7 +8,7 @@
   </div>
 
     <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
-        {% for project in projects%}
+        {% for project in active_projects%}
         <div class="col">
             <div class="card border-0 shadow-sm bg-light">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -37,60 +37,14 @@
         </div>
         {% endfor %}
     </div>
-</div>
- {% for project in active_projects %}
-    {% if forloop.counter0|divisibleby:3 %}
-    <div class="container my-4">
-        <div class="row">
-    {% endif %}
 
-    <div class="project-card card col-md-4 mb-4">
-        <h1>{{ project.title }}</h1>
-        <!-- Bootstrap Carousel Component -->
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                    {% for image in images %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ image.image.url }}" class="d-block w-100" alt="Project Image">
-                        </div>
-                    {% empty %}
-                        <p>No images available for this project.</p>
-                    {% endfor %}
-        </div>
-        <div class="project-details"><br/><br/>
-            <p><strong>Details:</strong></p>
-            <p class="text-success">{{ project.details }}</p>
-            <p><strong>Total Target:</strong> ${{ project.total_target }}</p>
-            <p><strong>Current Target:</strong> ${{ project.current_target }}</p>
-            <p><strong>Start Time:</strong> {{ project.start_time }}</p>
-            <p><strong>End Time:</strong> {{ project.end_time }}</p>
-            <p><strong>Created By:</strong> {{ project.created_by.username }}</p>
-            <p>Tags:
-            {% for tag in project.tags.all %}
-                <span class="tag">{{ tag.tag }}</span>
-            {% endfor %}
-            </p>
-        </div>
-        <!-- Buttons at the bottom of the card -->
-        <div class="card-buttons  my-3">
-            <a href="{% url 'projects:project_detail' project_id=project.id %}" class="btn btn-primary">Details</a>
-            <a href="{% url 'projects:projects.edit' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Edit</a>
-            <a href="{% url 'projects:project.delete' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Delete</a>
-            <a href="{% url 'projects:project.cancel' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Cancel </a>
-            <a href="{% url 'projects:project.rate' project.id%}" class="btn btn-outline-warning text-danger mx-2 mt-3">Rate This Project</a>
-        </div>
-    </div>
-
-    {% if forloop.last or forloop.counter|divisibleby:3 %}
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-
-    <hr/>
-    <h1 class="text-secondary text-center"> Cancel Projects</h1>
+    <!-- Cancel Project -->
+    {% if canceled_projects %}
+    <hr>
+    <h3 class="text-secondary text-center ">Cancel Projects</h3>
    
     <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
-        {% for project in canceled_projects%}
+        {% for project in canceled_projects %}
         <div class="col">
             <div class="card border-0 shadow-sm bg-light">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -121,4 +75,7 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
+</div>
+
 {% endblock %}
