@@ -123,7 +123,7 @@
             {% if user_donations %}
               {% for donation in user_donations %}
               <hr />
-              <h5 class="p-0 m-0" style="text-decoration: none;">{{ donation.project }} : {{ donation.amount }}$</h5>
+              <h5 class="p-0 m-0" style="text-decoration: none;">{{ donation.project.title }} : {{ donation.amount }}$</h5>
               <!-- Display other donation details -->
               {% empty %}
               <hr />
