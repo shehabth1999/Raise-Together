@@ -25,7 +25,7 @@
     {% endblock %}
 </head>
 <body>
-  <nav class="header navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="header navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
     <div class="container-fluid">
       <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto">
@@ -99,7 +99,7 @@
   </nav>
   {% if messages %}
     {% for message in messages %}
-      <div class="container-fluid p-0">
+      <div class="py-3 mx-auto" style="width: 500px;">
         <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
           {{ message }}
         </div>

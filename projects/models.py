@@ -20,10 +20,10 @@ class Project(models.Model):
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(MyUser,null=True , on_delete=models.CASCADE, default=None)
+    created_by = models.ForeignKey(MyUser,null=True , blank=True, on_delete=models.CASCADE, default=None)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='projects')
-    rating = models.IntegerField(null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Active')
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Active',blank=True)
 
     def __str__(self):
         return self.title
