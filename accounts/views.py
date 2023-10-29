@@ -24,6 +24,10 @@ from datetime import datetime
 from django.contrib.auth.hashers import check_password
 from projects.models import Project
 from donations.models import Donation
+from social_django.models import UserSocialAuth
+
+
+
 
 
 
@@ -151,6 +155,19 @@ def logout_user(request):
 class Profile(DetailView):
     model = MyUser
     template_name = 'accounts/profile.html'
+
+    def my_view(request, queryset=None):
+        if request.user.is_authenticated:
+        # Get the user's social authentication instance for Facebook
+            user_social_auth = UserSocialAuth.objects.filter(user=request.user, provider='facebook').first()
+            if user_social_auth:
+                # Access the user's data
+                user_data = user_social_auth.extra_data
+                user_birthday = user_data.get('birthday', '')
+                user_hometown = user_data.get('hometown', {})
+                print(user_data)
+                print(user_birthday)
+                print(user_hometown)
 
     def get_object(self, queryset=None):
         return self.request.user  

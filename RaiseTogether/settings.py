@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'categories.apps.CategoriesConfig',
     'accounts.apps.AccountsConfig',
     'django_countries',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'RaiseTogether.urls'
@@ -82,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -169,7 +172,22 @@ EMAIL_DEBUG = True
 
 AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',  # Keep the ModelBackend for fallback
+    'social_core.backends.facebook.FacebookOAuth2',  # Enable Facebook backend
+    'django.contrib.auth.backends.ModelBackend',  # Optional: default Django authentication
 ]
 
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'homepage.index'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
+
+
+#facebook 
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
+
+SOCIAL_AUTH_FACEBOOK_SCOPE =[
+    'public_profile','user_hometown', 'user_birthday', 'user_link'
+]

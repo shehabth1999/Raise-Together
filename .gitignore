@@ -1,4 +1,13 @@
 .env
 migrations/
 .idea/
-__pycache__/
+_pycache_/
+accounts/migrations/
+projects/migrations/
+categories/migrations/
+donations/migrations/
+accounts/_pycache_/
+projects/_pycache_/
+categories/_pycache_/
+donations/_pycache_/
+RaiseTogether/_pycache_/
