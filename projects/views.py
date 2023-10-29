@@ -34,14 +34,12 @@ def project_detail(request, project_id):
         .annotate(tag_count=Count('tags__tag')) \
         .order_by('-tag_count')[:4]
 
-    donation_percentage = (project.current_target/project.total_target ) *100
 
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
         'similar_projects': similar_projects,
-        'donation_percentage': donation_percentage,
     })
 
 
@@ -100,7 +98,7 @@ def create_project(request):
 
 @login_required
 def edit_project(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
+    project = get_object_or_404(Project, id=project_id, created_by=request.user) 
 
     # Create an ImageFormSet for editing images
     ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)
@@ -239,6 +237,7 @@ def report_comment(request, comment_id):
 
         comment_report = CommentReport(comment=comment, user=user, report_comment=report_content)
         comment_report.save()
+        return redirect('homepage.index')
 
     return render(request, 'projects/report_comment.html')
 

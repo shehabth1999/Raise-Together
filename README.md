@@ -41,20 +41,20 @@ The web app should include the following features:
 		- Total target (i.e 250000 EGP) ok
 		- Multiple Tags ok
 		- Set start/end time for the campaign ok
-		- Users can view any project and donate to the total target ------------------------------------------------------------------ @login
-		- Users can add comments on the projects ok ---------------------------------------------------------------------------------- @login
-		- Bonus: Comments can have replies ----------------------------------------------------------------------------------------------------
-		- Users can report inappropriate projects ok ----------------------------------------------------------------------------------@login
-		- Users can report inappropriate comments ok --------------------------------------------------------------------------------- @login
-		- Users can rate the projects ok --------------------------------------------------------------------------------------------- @login
-		- Project creator can cancel the project if the donations are less than 25% of the target ---------------------------------------------
+		- Users can view any project and donate to the total target 
+		- Users can add comments on the projects ok 
+		- Bonus: Comments can have replies 
+		- Users can report inappropriate projects ok 
+		- Users can report inappropriate comments ok -------------------
+		- Users can rate the projects ok 
+		- Project creator can cancel the project if the donations are less than 25% of the target -----------------------
 		- The project page should show the overall average rating of the project ok
 		- The project page should show the project pictures in a slider ok
 		- The project page should show 4 other similar projects based on project tags ok
 
 
 3 - The homepage should contain the following: 
-		- A slider to show the highest five rated running projects to encourage users to donate -----------------------------------------------
+		- A slider to show the highest five rated running projects to encourage users to donate ok
 		- List of the latest 5 projects ok
 		- List of the latest 5 featured projects (which are selected by the admin) ok
 		- A list of the categories. Users can open each category to view its projects ok

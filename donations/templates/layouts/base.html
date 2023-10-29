@@ -90,7 +90,7 @@
             <a class="nav-link text-success " href="{% url 'login' %}">Log In <i class="fa-solid fa-right-to-bracket"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-success " href="">Register <i class="fa-solid fa-registered"></i></a>
+            <a class="nav-link text-success " href="{% url 'account.create' %}">Register <i class="fa-solid fa-registered"></i></a>
           </li>
           {% endif %}
         </ul>
@@ -171,7 +171,6 @@
      © 2021 Copyright:<a class="text-reset fw-bold" href="https://mdbootstrap.com/">campaign.com</a>
     </div>
   </footer>
-  <script src="{% static  'accounts/js/scriptt.js' %}"></script>
   <script src="{% static  'base/js/script-1.js' %}"></script>
   <script src="{% static 'bootstrap/js/bootstrap.js'%}"></script>
   <script src="{% static 'fontawesomefree/js/fontawesome.js' %}"></script>
