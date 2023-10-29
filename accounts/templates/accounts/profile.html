@@ -6,7 +6,11 @@
       <div class="card mb-4">
         <div class="card-body text-center">
           <img
-            src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'accounts/images/profile.png' %}{% endif %}"
+            src="{% if user.image or user.image == 'None' %}
+            {{ user.image.url }}
+            {% else %}
+            {% static 'base/images/no_profile_image.png' %}
+            {% endif %}"
             alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px;" />
 
           <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>

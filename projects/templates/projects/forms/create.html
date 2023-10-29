@@ -1,86 +1,108 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
-<<<<<<< HEAD
-{% block title %}Add Project{% endblock %}
-=======
-{% block title %} Create New Project{% endblock %}
->>>>>>> 5be4dfd19cf7d85107ad1a35f2ebdfebfd920581
-{% block container %}
-<div class="container p-5 my-5  shadow rounded-3 bg-white"  style="width: 1000px;">
-    <h1 class="pb-4 text-center">Create a New Project</h1>
-    <div class="row align-items-center justify-content-center">
-        <div class="col-10 d-flex justify-content-center">
-            <img src="{% static 'projects/images/add_project.jpg' %}" height="300"/>
-            </div>
-            <div class="col-10">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-            <div class="form-group">
-                <label for="{{ project_form.title.id_for_label }}">Title:</label>
-                {{ project_form.title }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.details.id_for_label }}">Details:</label>
-                {{ project_form.details }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.total_target.id_for_label }}">Total Target:</label>
-                {{ project_form.total_target }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.start_time.id_for_label }}">Start Time:</label>
-                {{ project_form.start_time }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.end_time.id_for_label }}">End Time:</label>
-                {{ project_form.end_time }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.current_target.id_for_label }}">Current Target:</label>
-                {{ project_form.current_target }}
-            </div>
-
-            <div class="form-group">
-                <label for="{{ project_form.category.id_for_label }}">Category:</label>
-                <select class="form-control" name="{{ project_form.category.name }}" id="{{ project_form.category.id_for_label }}" required>
-                    {% for category in project_form.category.field.queryset %}
-                        <option value="{{ category.pk }}">{{ category }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-
-
-
-            <div class="form-group">
-                <label for="{{ formset.management_form.id_for_label }}"> Images:</label><br>
-                {{ formset.management_form }}
-                {% for form in formset %}
-                    {{ form.as_table }}
-                {% endfor %}
-            </div>
-    <!--        <div class="form-group">-->
-    <!--            <label for="{{ project_form.tags.id_for_label }}">Tags:</label>-->
-    <!--            {{ project_form.tags }}-->
-    <!--        </div>-->
-            <div class="form-group">
-                <label for="id_tags">Tags:</label>
-                <input type="text" class="form-control" name="tags" id="id_tags" placeholder="Enter Multi Tags separated by commas like dog , cat , etc..">
-            </div>
-
-            <button type="submit" class="btn btn-outline-success mt-3">Submit</button>
-                <hr>
-            </form>
-            <div class="text-center" >
-              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
-            </div>
-        </div>
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Add
+Project{% endblock %} {% block container %}
+<div class="container p-5 my-5 shadow rounded-3 bg-white" style="width: 1000px">
+  <h1 class="pb-4 text-center">Create a New Project</h1>
+  <div class="row align-items-center justify-content-center">
+    <div class="col-10 d-flex justify-content-center">
+      <img src="{% static 'projects/images/add_project.jpg' %}" height="300" />
     </div>
+    <div class="col-10">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="{{ project_form.title.id_for_label }}">Title:</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Your Title's Project"
+            name="{{ project_form.title.name }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="{{ project_form.details.id_for_label }}">Details:</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Details About Your Project"
+            name="{{ project_form.details.name }}"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.total_target.id_for_label }}"
+            >Total Target:</label
+          >
+          {{ project_form.total_target }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ project_form.start_time.id_for_label }}"
+            >Start Time:</label
+          >
+          {{ project_form.start_time }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ project_form.end_time.id_for_label }}"
+            >End Time:</label
+          >
+          {{ project_form.end_time }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ project_form.current_target.id_for_label }}"
+            >Current Target:</label
+          >
+          {{ project_form.current_target }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ project_form.category.id_for_label }}"
+            >Category:</label
+          >
+          <select
+            class="form-control"
+            name="{{ project_form.category.name }}"
+            id="{{ project_form.category.id_for_label }}"
+            required
+          >
+            {% for category in project_form.category.field.queryset %}
+            <option value="{{ category.pk }}">{{ category }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ formset.management_form.id_for_label }}">
+            Images:</label
+          ><br />
+          {{ formset.management_form }} 
+          {% for form in formset %} 
+          {{form.as_table }} 
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label for="id_tags">Tags:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tags"
+            id="id_tags"
+            placeholder="Enter Multi Tags separated by commas like dog , cat , etc.."
+          />
+        </div>
+
+        <button type="submit" class="btn btn-outline-success mt-3">
+          Submit
+        </button>
+        <hr />
+      </form>
+      <div class="text-center">
+        <a href="/projects" class="text-decoration-none text-success"
+          >&larr; Back to Projects</a
+        >
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
