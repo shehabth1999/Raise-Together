@@ -39,18 +39,10 @@ def addDonation(request, project_id):
 def searchDonations(request):
     search_type = request.GET.get('search_type', 'project')
     search_query = request.GET.get('search_query', '')
-
     donations = []
-
     if search_query:
         if search_type == 'project':
             donations = Donation.objects.filter(id__in=Project.objects.filter(title__icontains=search_query).values('donations'))
         elif search_type == 'amount':
             donations = Donation.objects.filter(amount=search_query)
-
-    # context = {
-    #     'search_type': search_type,
-    #     'search_query': search_query,
-    #     'projects': donations
-    # }
     return render(request,'donations/history.html',{'donations':donations})
