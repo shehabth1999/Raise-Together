@@ -142,9 +142,11 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if project.donations.all %} 
                 <div class="text-center">
                     <a href="{% url 'donations.project' project.id %}" class="btn btn-outline-success">See All Donations</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

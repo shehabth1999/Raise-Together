@@ -1,24 +1,31 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-{% block title %} <title>All Projects Donations</title>  {% endblock %}
+{% block title %}All Projects Donations{% endblock %}
 {% block container %}
-<div class="row m-5 pt-5 container justify-content-center mx-auto">  
-    {% for donation in donations %}
-    <div style="width: 70%; border: 3px solid; padding: 10px; border-radius: 25px;" class="border-success m-2 d-flex">
-      <h1 class="text-success">
-        <i class="fa-solid fa-plus fs-3"></i>
-        <span class="text-warning">{{donation.amount}}</span>
-        <i class="fa-solid fa-dollar-sign text-warning"></i>
-      </h1>
-      <p class="text-success mx-auto my-auto">
-        <i class="fa-regular fa-calendar-days"></i> 
-        <span class="border border-success rounded p-1 fs-5">{{donation.created_at}}</span>
-      </p>
-      <p class="text-success ms-auto my-auto">
-        <i class="fa-solid fa-user fs-5"></i>
-        <span class="btn btn-success">{{donation.donator}}</span>
-      </p>
-    </div>
-    {% endfor %}
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+  <div class="header">
+    <h4 class="text-success text-uppercase">Donation</h4>
+    <p class="text-secondary">All Donation History for {{project.title}}</p>
   </div>
+  <table class="table">
+    <thead class="table-light table-hover">
+      <tr>
+        <th class="text-uppercase">Date</th>
+        <th class="text-uppercase">Name</th>
+        <th class="text-uppercase">E-mail</th>
+        <th class="text-uppercase">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for donation in donations %}
+      <tr>
+        <td>{{donation.created_at}}</td>
+        <td>{{donation.donator.first_name}} {{donation.donator.last_name}}</td>
+        <td>{{donation.donator.email}}</td>
+        <td>{{donation.amount}}$</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

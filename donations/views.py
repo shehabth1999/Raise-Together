@@ -17,7 +17,7 @@ def projectDonations(request,project_id):
     project = get_object_or_404(Project, id=project_id)
     donations = project.donations
     donations = Donation.objects.filter(project=project)
-    return render(request,'donations/projectDonations.html',{'donations':donations})
+    return render(request,'donations/projectDonations.html',{'donations':donations, 'project':project})
 
 @login_required()
 def addDonation(request, project_id):
