@@ -100,18 +100,18 @@
         <div class="card mb-4 mb-md-0">
           <div class="card-body">
             <div class="text-success font-italic mb-2"><h4>Your Projects </h4></div>
-            <hr />
             {% if user_projects %}
-            <ul>
               {% for project in user_projects %}
-              <li><h5>{{ project.title }}</h5></li>
+              <hr/>
+              <h5 class="p-0 m-0" style="text-decoration: none;">{{ project.title }}</h5>
               <!-- Display other project details -->
               {% empty %}
-              <li>No projects found.</li>
+              <hr/>
+              <h5 class="p-0 m-0" style="text-decoration: none;">No projects found.</h5>
               {% endfor %}
-            </ul>
             {% else %}
-            <p>No projects found.</p>
+            <hr/>
+            <h5 class="p-0 m-0" style="text-decoration: none;">No projects found.</h5>
             {% endif %}
           </div>
         </div>
@@ -120,18 +120,18 @@
         <div class="card mb-4 mb-md-0">
           <div class="card-body">
             <div class="text-success font-italic mb-2"><h4>Your Donations</h4></div>
-            <hr />
             {% if user_donations %}
-            <ul>
               {% for donation in user_donations %}
-              <li><h5>{{ donation.amount }}$</h5></li>
+              <hr />
+              <h5 class="p-0 m-0" style="text-decoration: none;">{{ donation.project }} : {{ donation.amount }}$</h5>
               <!-- Display other donation details -->
               {% empty %}
-              <li>No donations found.</li>
+              <hr />
+              <h5 class="p-0 m-0" style="text-decoration: none;">>No donations found.</h5>
               {% endfor %}
-            </ul>
             {% else %}
-            <p>No donations found.</p>
+            <hr/>
+            <h5 class="p-0 m-0" style="text-decoration: none;">No donations found.</h5>
             {% endif %}
           </div>
         </div>
