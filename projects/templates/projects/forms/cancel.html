@@ -1,10 +1,14 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+<<<<<<< HEAD
+{% block title %}Cancel Project{% endblock %}
+=======
 {% block title %} Cancel Project{% endblock %}
+>>>>>>> 5be4dfd19cf7d85107ad1a35f2ebdfebfd920581
 {% block container %}
 <div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
     <div class="row align-items-center">
-        <img src="{% static 'projects/images/cancel_project.jpg' %}" class="col-6" width="300" />
+        <img src="{% static 'projects/images/cancel_project.jpg' %}" class="col-6" width="200" />
         <div class="col-6">
             <p class="fw-bold mb-2">Are You Sure You Want To Cancel This Project?  {{ project.title }}</p>
             <form method="post">

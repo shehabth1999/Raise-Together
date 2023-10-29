@@ -33,6 +33,9 @@ def project_detail(request, project_id):
         .filter(tags__tag__in=current_tags) \
         .annotate(tag_count=Count('tags__tag')) \
         .order_by('-tag_count')[:4]
+    
+    current_target = project.current_target
+    total_target = project.total_target
 
 
     return render(request, 'projects/project_detail.html', {
@@ -263,8 +266,10 @@ def rate_project(request, project_id):
 
 @login_required
 def myprojects(request):
-    projects = Project.objects.filter(created_by = request.user)  
-    return render(request, 'projects/all_project.html', {'projects': projects})
+    active_projects = Project.objects.filter(status='Active', created_by = request.user)
+    canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
+
+    return render(request, 'projects/myprojects.html', context= {'active_projects': active_projects,'canceled_projects': canceled_projects})
 
 
 # Comment Replay 

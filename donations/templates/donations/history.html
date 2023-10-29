@@ -2,23 +2,43 @@
 {% load static %}
 {% block title %} Donations History {% endblock %}
 {% block container %}
-<div class="row m-5 pt-5 container justify-content-center mx-auto">  
-  {% for donation in donations %}
-  <div style="width: 70%; border: 3px solid; padding: 10px; border-radius: 25px;" class="border-success m-2 d-flex">
-    <h1 class="text-success d-flex">
-      <i class="fa-solid fa-plus fs-3 my-auto"></i>
-      <span class="text-warning my-auto mx-2">{{donation.amount}}</span>
-      <i class="fa-solid fa-dollar-sign text-warning my-auto"></i>
-    </h1>
-    <p class="text-success mx-auto my-auto d-flex">
-      <i class="fa-regular fa-calendar-days my-auto mx-2"></i> 
-      <span class="border border-success rounded p-1 my-auto fs-5">{{donation.created_at}}</span>
-    </p>
-    <p class="text-success ms-auto my-auto d-flex">
-      <i class="fa-solid fa-arrow-right fs-5 my-auto"></i>
-      <span class="btn btn-success my-auto mx-2">{{donation.project.title}}</span>
-    </p>
+<div class="container justify-content-center text-center  pt-5">
+  <form method="get" action="{% url 'donations.search' %}" class="d-flex ms-auto" role="search" style="width: 350px;">
+   <div class="input-group">
+     <input type="text" name="search_query" class="form-control me-2" placeholder="Search"  style="border-radius: 17px;">
+     <select name="search_type" class="form-select text-secondary me-2 flex-shrink-1"  style="border-radius: 17px; width: 20px;">
+       <option value="project">Search By Project</option>
+       <option value="amount">Search By Amount</option>
+     </select>
+     <button type="submit" class="btn text-success px-2" style="border-radius: 20px;"><i class="fa-brands fa-searchengin fs-5"></i></button>
+   </div>
+  </form>
+</div>
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+  <div class="header">
+    <h4 class="text-success text-uppercase">Donation</h4>
+    <p class="text-secondary">All Your Donation History</p>
   </div>
-  {% endfor %}
+  <table class="table">
+    <thead class="table-light table-hover">
+      <tr>
+        <th class="text-uppercase">Date</th>
+        <th class="text-uppercase">Project</th>
+        <th class="text-uppercase">Onwer</th>
+        <th class="text-uppercase">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for donation in donations %}
+      <tr>
+        <td>{{donation.created_at}}</td>
+        <td>{{donation.project.title|slice:":20"}}</td>
+        <td>{{donation.project.created_by.first_name}} {{donation.project.created_by.last_name}}</td>
+        <td>{{donation.amount}}$</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class="btn btn-success m-2" href="{% url 'donations.history' %}">All Donations</a>
 </div>
 {% endblock %}

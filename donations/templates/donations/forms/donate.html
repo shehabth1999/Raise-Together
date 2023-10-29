@@ -1,14 +1,27 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+<<<<<<< HEAD
+{% block title %} Add Donations{% endblock %}
+=======
 {% block title %} Donate {% endblock %}
 {% block style %}
 {% endblock %}
+>>>>>>> 5be4dfd19cf7d85107ad1a35f2ebdfebfd920581
 {% block container %}
-<div class="row m-5 pt-5 container justify-content-center mx-auto">  
-<form method="post"  enctype="multipart/form-data" class="w-50 text-center">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit" class="btn btn-success m-5 w-75">Donate <i class="fa-solid fa-hand-holding-dollar fs-5 text-light"></i></button>
-</form>
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+        <img src="{% static 'projects/images/donations.jpg' %}" class="col-6" width="300" />
+        <div class="col-6">
+            <form method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-success mt-3">Donate <i class="fa-solid fa-hand-holding-dollar fs-5 text-light"></i></button>
+            </form>
+            <hr>
+            <div class="text-center" >
+              <a href="/projects" class="text-decoration-none text-success">&larr; Back to Projects</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
