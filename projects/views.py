@@ -6,10 +6,13 @@ from django.forms import modelformset_factory
 from decimal import Decimal
 from django.http import request 
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
+from django.utils import timezone
+from datetime import datetime
 
 @login_required
 def allProjects(request):
+    
 
     active_projects = Project.objects.filter(status='Active')
     canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
@@ -34,14 +37,14 @@ def project_detail(request, project_id):
     current_target = project.current_target
     total_target = project.total_target
 
-    percentage = (current_target / total_target) * 100
+    donation_percentage = (project.current_target/project.total_target ) *100
 
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
         'similar_projects': similar_projects,
-        'percentage': percentage
+        'donation_percentage': donation_percentage,
     })
 
 
@@ -54,11 +57,26 @@ def create_project(request):
         formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.none())
 
         if project_form.is_valid() and formset.is_valid():
+            start_date = request.POST.get('start_time')
+            end_date = request.POST.get('end_time')
+
+            date_time_format = "%Y-%m-%dT%H:%M"
+
+            # Convert the input datetimes to timezone-aware datetimes
+            start_datetime = timezone.make_aware(datetime.strptime(start_date, date_time_format))
+            end_datetime = timezone.make_aware(datetime.strptime(end_date, date_time_format))
+
+            if start_datetime < timezone.now():
+                messages.error(request, "Please Enter Start Date As Now Or Future")
+                return redirect('projects:projects.create')
+
+            if end_datetime <= start_datetime:
+                messages.error(request, "Please Enter End Date As A Future")
+                return redirect('projects:projects.create')
             project = project_form.save()
             project.created_by = request.user
             project.save()
 
-            # Process and associate tags with the project
             tags_input = project_form.cleaned_data['tags']
             tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
             for tag in tags_list:
@@ -73,10 +91,11 @@ def create_project(request):
             print(project_form)
             return redirect('projects:project_detail', project_id=project.id)
         else:
-            # Print errors to console or use Django messages framework
             print("project_form.errors" , project_form.errors)
             print("formset.errors" , formset.errors)
-            return HttpResponse("er")
+            messages.error(request, "Check Data Again")
+
+            return redirect('projects:projects.create')
     else:
         project_form = ProjectForm()
         formset = ImageFormSet(queryset=Multi_Picture.objects.none())
@@ -90,20 +109,31 @@ def edit_project(request, project_id):
     ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)
 
     if request.method == 'POST':
-        # Create a ProjectForm instance with the updated data
         project_form = ProjectForm(request.POST, request.FILES, instance=project)
 
-        # Create an ImageFormSet with the updated images
         formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.filter(project=project))
 
         if project_form.is_valid() and formset.is_valid():
-            # Save the updated project details
+            start_date = request.POST.get('start_time')
+            end_date = request.POST.get('end_time')
+
+            date_time_format = "%Y-%m-%dT%H:%M"
+
+            start_datetime = timezone.make_aware(datetime.strptime(start_date, date_time_format))
+            end_datetime = timezone.make_aware(datetime.strptime(end_date, date_time_format))
+
+            if start_datetime < timezone.now():
+                messages.error(request, "Please Enter Start Date As Now Or Future")
+                return redirect('projects:projects.edit', project_id)
+
+            if end_datetime <= start_datetime:
+                messages.error(request, "Please Enter End Date As A Future")
+                return redirect('projects:projects.edit', project_id)
+
             project = project_form.save()
 
-            # Delete all existing project images
             project.images.all().delete()
 
-            # Process and associate tags with the project
             tags_input = project_form.cleaned_data.get('tags')
             tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
             for tag in tags_list:

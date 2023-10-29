@@ -14,7 +14,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     details = models.TextField(max_length=300)
     total_target = models.DecimalField(max_digits=10, decimal_places=2, default=250000)
-    start_time = models.DateTimeField(auto_now_add=False,default=timezone.now)
+    start_time = models.DateTimeField(auto_now=False)
     end_time = models.DateTimeField(auto_now=False,default=None)
     current_target = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_featured = models.BooleanField(default=False)
@@ -25,7 +25,7 @@ class Project(models.Model):
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Active',blank=True)
 
-    def __str__(self):
+    def _str_(self):
         return self.title
 
     def update_rating(self):
