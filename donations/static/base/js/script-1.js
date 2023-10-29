@@ -11,6 +11,12 @@ for (var i = 0; i < labels.length; i++) {
     labels[i].classList.add('mt-3')
 }
 
+textArea=document.querySelectorAll('textarea');
+for (var i = 0; i < textArea.length; i++) {
+    textArea[i].classList.add('form-control');
+    textArea[i].setAttribute('rows', '3');
+}
+
 inputs = document.querySelectorAll('input');
 for (var i = 0; i < inputs.length; i++) {
     inputs[i].classList.add('form-control');
