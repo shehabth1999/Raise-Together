@@ -2,6 +2,18 @@
 {% load static %}
 {% block title %} <title>Donations History</title>  {% endblock %}
 {% block container %}
+<div class="container justify-content-center text-center  pt-5">
+  <form method="get" action="{% url 'donations.search' %}" class="d-flex ms-auto" role="search" style="width: 350px;">
+   <div class="input-group">
+     <input type="text" name="search_query" class="form-control me-2" placeholder="Search"  style="border-radius: 17px;">
+     <select name="search_type" class="form-select text-secondary me-2 flex-shrink-1"  style="border-radius: 17px; width: 20px;">
+       <option value="project">Search By Project</option>
+       <option value="amount">Search By Amount</option>
+     </select>
+     <button type="submit" class="btn text-success px-2" style="border-radius: 20px;"><i class="fa-brands fa-searchengin fs-5"></i></button>
+   </div>
+  </form>
+ </div>
 <div class="row m-5 pt-5 container justify-content-center mx-auto">  
   {% for donation in donations %}
   <div style="width: 70%; border: 3px solid; padding: 10px; border-radius: 25px;" class="border-success m-2 d-flex">
