@@ -3,6 +3,7 @@ from django.shortcuts import reverse
 from accounts.models import MyUser
 from django.utils import timezone
 from categories.models import Category
+from django.core.exceptions import ValidationError
 
 
 class Project(models.Model):
@@ -27,6 +28,11 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def clean(self):
+        if self.end_time and self.start_time:
+            if self.start_time > self.end_time:
+                raise ValidationError("End time cannot be before the start time.")
 
     def update_rating(self):
         ratings = self.ratings.all()

@@ -68,6 +68,9 @@ def upload_multi_picture(request, project_id):
 
 @login_required()
 def create_project(request):
+    images_formset = None  # Initialize the variable with None
+    tags_formset = ""
+
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
@@ -83,6 +86,8 @@ def create_project(request):
         images_formset = MultiPictureFormSet(prefix='images')
         tags_formset = TagFormSet(prefix='tags')
     return render(request, 'projects/forms/create.html', {'form': form, 'images_formset': images_formset, 'tags_formset': tags_formset})
+
+
 
 @login_required()
 def editForm(request, project_id):
