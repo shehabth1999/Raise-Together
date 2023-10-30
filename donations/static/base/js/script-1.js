@@ -22,9 +22,12 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].classList.add('form-control');
     inputs[i].removeAttribute('required');
 }
-select= document.querySelector('select')
 
-select.classList.add('form-control')
+selects= document.querySelectorAll('select')
+  
+  for (var d =0; d < selects.length; d++){
+    selects[d].classList.add('form-control')
+}
 
 divs = document.getElementsByClassName("form_element")
 for (var d =0; d < divs.length; d++){

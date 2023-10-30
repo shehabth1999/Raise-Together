@@ -9,7 +9,12 @@
             <p class="fw-bold mb-2">Are You Sure You Want To Cancel This Project?  {{ project.title }}</p>
             <form method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger mt-3 px-4 " >Submit</button>
+                {% if error_message %}
+                    <div class="alert alert-danger">{{ error_message }}</div>
+                {% else %}
+                    <button type="submit" class="btn btn-danger mt-3 px-4" >Submit</button>
+                {% endif %}
+                
                 <a href="/projects/" class="btn btn-outline-success mx-3 mt-3 px-4 " >Cancel</a>
             </form>
             <hr>

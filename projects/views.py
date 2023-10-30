@@ -12,8 +12,6 @@ from datetime import datetime
 
 @login_required
 def allProjects(request):
-    
-
     active_projects = Project.objects.filter(status='Active')
     canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
 
@@ -36,15 +34,15 @@ def project_detail(request, project_id):
     
     current_target = project.current_target
     total_target = project.total_target
+    percentage = (current_target / total_target) * 100
 
-    donation_percentage = (project.current_target/project.total_target ) *100
 
     return render(request, 'projects/project_detail.html', {
         'project': project,
         'images': images,
         'comments': comments,
         'similar_projects': similar_projects,
-        'donation_percentage': donation_percentage,
+        'percentage':percentage,
     })
 
 
@@ -62,7 +60,6 @@ def create_project(request):
 
             date_time_format = "%Y-%m-%dT%H:%M"
 
-            # Convert the input datetimes to timezone-aware datetimes
             start_datetime = timezone.make_aware(datetime.strptime(start_date, date_time_format))
             end_datetime = timezone.make_aware(datetime.strptime(end_date, date_time_format))
 
@@ -101,9 +98,10 @@ def create_project(request):
         formset = ImageFormSet(queryset=Multi_Picture.objects.none())
     return render(request, 'projects/forms/create.html', {'project_form': project_form, 'formset': formset})
 
+
 @login_required
 def edit_project(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
+    project = get_object_or_404(Project, id=project_id, created_by=request.user) 
 
     # Create an ImageFormSet for editing images
     ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)
@@ -146,9 +144,12 @@ def edit_project(request, project_id):
                     img.save()
 
             return redirect('projects:project_detail', project_id=project.id)
+        else:
+            messages.error(request, "Check Data Again")
     else:
         # Create a ProjectForm instance with the existing project data
         project_form = ProjectForm(instance=project)
+        
 
         # Create an ImageFormSet with the existing project images
         formset = ImageFormSet(queryset=Multi_Picture.objects.filter(project=project))
@@ -172,30 +173,27 @@ def deleteProject(request, id):
 @login_required
 def cancelProject(request, project_id):
     project = get_object_or_404(Project, id=project_id, created_by=request.user)
-
-    # Calculate the donation threshold (25% of the target)
+ 
     decimal_value = Decimal('0.25')
     donation_threshold = project.total_target * decimal_value
-
-    # Calculate the total donations for the project
-    total_donations = project.current_target  # Assuming current_target is a field of the Project model
-
+ 
+    total_donations = project.current_target 
+    error_message = None
+ 
     if request.method == 'POST':
         if total_donations is not None and total_donations >= donation_threshold:
-            # Donations exceed or equal the threshold, so the project cannot be deleted
             return redirect('projects:project_detail', project_id=project_id)
-
-        # If the conditions are met, cancel the project
+ 
         project.status = 'Canceled'
         project.save()
-        return redirect('projects:all_project')
-    
+        return redirect('projects:project_detail', project_id=project_id)
+   
+    elif total_donations is not None and total_donations >= donation_threshold:
+        error_message = "Cannot cancel the project. Donations exceed or equal the threshold."
+   
     return render(request,
                 'projects/forms/cancel.html',
-                {'project': project})
-
-    # # Redirect to a success page or an appropriate page
-    # return redirect('projects:all_project')
+                {'project': project ,'donation_threshold': donation_threshold, 'total_donations': total_donations, 'error_message':error_message})
 
 
 @login_required
@@ -242,6 +240,7 @@ def report_comment(request, comment_id):
 
         comment_report = CommentReport(comment=comment, user=user, report_comment=report_content)
         comment_report.save()
+        return redirect('homepage.index')
 
     return render(request, 'projects/report_comment.html')
 

@@ -9,7 +9,7 @@ from django.core.validators import URLValidator
 
 class MyUser(AbstractUser):
     phone = models.CharField(max_length=15)
-    image = models.ImageField(upload_to='accounts/', blank=True, null=True, default='None')
+    image = models.ImageField(upload_to='accounts/', blank=True, null=True)
     is_email_verified = models.BooleanField(default=False)
     activation_link_created_at = models.DateTimeField(null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)

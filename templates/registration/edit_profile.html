@@ -19,13 +19,20 @@
           <button type="submit" class="btn btn-success mt-4">Submit Change</button>
           <a href="{% url 'profile.edit.Password' %}" class="btn btn-outline-danger mt-4">Change Password</a>
         </form>
-        
-
-
       </div>
     </div>
   </div>
 
-  <script src="{% static 'accounts/js/script.js' %}"></script>
-  <!-- End Body -->
+    <!-- End Body -->
 {% endblock %}
+{% block script %}
+<script>
+  selects= document.querySelectorAll('select')
+  
+  for (var d =0; d < selects.length; d++){
+    selects[d].classList.add('form-control')
+}
+  console.log('hello')
+  console.log(select)
+</script>
+  {% endblock %}

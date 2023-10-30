@@ -49,13 +49,26 @@ class EditProfile(forms.ModelForm):
         if birthdate > timezone.now().date():
             raise ValidationError("Birthdate cannot be in the future.")
         return birthdate
-
-
-
-
+    
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = MyUser
         fields = ['old_password', 'new_password1', 'new_password2']
+
+    old_password = forms.CharField(
+    label="Old Password",
+    widget=forms.PasswordInput(),
+    help_text=""
+    )
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(),
+        help_text=""
+    )
+    new_password12 = forms.CharField(
+        label="New Password Confirmation",
+        widget=forms.PasswordInput(),
+        help_text=""
+    )
