@@ -287,4 +287,4 @@ def add_comment_reply(request, comment_id):
     else:
         reply_form = CommentReplyForm()
 
-    return render(request, 'projects/add_comment_reply.html', {'reply_form': reply_form, 'comment_id': comment_id})
+    return render(request, 'projects/add_comment_reply.html', {'reply_form': reply_form})
