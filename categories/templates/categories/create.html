@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Add
+Category{% endblock %} {% block container %}
+<div class="container p-5 my-5 shadow rounded-3 bg-white" style="width: 1000px">
+  <h1 class="pb-4 text-center">Create a New Category</h1>
+  <div class="row align-items-center justify-content-center">
+    <div class="col-10 d-flex justify-content-center">
+      <img src="{% static 'projects/images/add_project.jpg' %}" height="300" />
+    </div>
+    <div class="col-10">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+{{form}}
+        <button type="submit" class="btn btn-outline-success mt-3">
+          Submit
+        </button>
+        <hr />
+      </form>
+      <div class="text-center">
+        <a href="/projects" class="text-decoration-none text-success"
+          >&larr; Back to Projects</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

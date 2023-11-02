@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
+from django.urls import reverse_lazy
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating, Tag
 from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm, CommentReplyForm
 from django.db.models import Count, Sum
@@ -13,7 +14,10 @@ from datetime import datetime
 @login_required
 def allProjects(request):
     active_projects = Project.objects.filter(status='Active')
-    canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
+    if request.user.is_superuser:
+        canceled_projects = Project.objects.filter(status='Canceled')
+    else:
+        canceled_projects = Project.objects.filter(status='Canceled', created_by=request.user)
 
     return render(request, 'projects/all_project.html', context= {'active_projects': active_projects,'canceled_projects': canceled_projects})
 
@@ -55,6 +59,10 @@ def create_project(request):
         formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.none())
 
         if project_form.is_valid() and formset.is_valid():
+            if request.POST["is_featured"]:
+                if not request.user.is_superuser:
+                    messages.error(request, "You don't have permission")
+                    return render(request, 'projects/forms/create.html', {'project_form': project_form, 'formset': formset})
             start_date = request.POST.get('start_time')
             end_date = request.POST.get('end_time')
 
@@ -101,99 +109,107 @@ def create_project(request):
 
 @login_required
 def edit_project(request, project_id):
-    project = get_object_or_404(Project, id=project_id, created_by=request.user) 
+    project = get_object_or_404(Project, id=project_id)
+    ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)    
+    if project.created_by == request.user or request.user.is_superuser:
+        if request.method == 'POST':
+            project_form = ProjectForm(request.POST, request.FILES, instance=project)
 
-    # Create an ImageFormSet for editing images
-    ImageFormSet = modelformset_factory(Multi_Picture, form=MultiPictureForm, extra=3, max_num=3)
+            formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.filter(project=project))
 
-    if request.method == 'POST':
-        project_form = ProjectForm(request.POST, request.FILES, instance=project)
+            if project_form.is_valid() and formset.is_valid():
+                if project.is_featured and not request.user.is_superuser:
+                    if request.POST.get('is_featured'):
+                        messages.error(request, "You don't have permission")
+                        return render(request, 'projects/forms/edit.html',
+                                    {'project_form': project_form, 'formset': formset, 'project': project})
 
-        formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.filter(project=project))
+                start_date = request.POST.get('start_time')
+                end_date = request.POST.get('end_time')
 
-        if project_form.is_valid() and formset.is_valid():
-            start_date = request.POST.get('start_time')
-            end_date = request.POST.get('end_time')
+                date_time_format = "%Y-%m-%dT%H:%M"
 
-            date_time_format = "%Y-%m-%dT%H:%M"
+                start_datetime = timezone.make_aware(datetime.strptime(start_date, date_time_format))
+                end_datetime = timezone.make_aware(datetime.strptime(end_date, date_time_format))
 
-            start_datetime = timezone.make_aware(datetime.strptime(start_date, date_time_format))
-            end_datetime = timezone.make_aware(datetime.strptime(end_date, date_time_format))
+                if start_datetime < timezone.now():
+                    messages.error(request, "Please Enter Start Date As Now Or Future")
+                    return redirect('projects:projects.edit', project_id)
 
-            if start_datetime < timezone.now():
-                messages.error(request, "Please Enter Start Date As Now Or Future")
-                return redirect('projects:projects.edit', project_id)
+                if end_datetime <= start_datetime:
+                    messages.error(request, "Please Enter End Date As A Future")
+                    return redirect('projects:projects.edit', project_id)
 
-            if end_datetime <= start_datetime:
-                messages.error(request, "Please Enter End Date As A Future")
-                return redirect('projects:projects.edit', project_id)
+                project = project_form.save()
 
-            project = project_form.save()
+                project.images.all().delete()
 
-            project.images.all().delete()
+                tags_input = project_form.cleaned_data.get('tags')
+                tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
+                for tag in tags_list:
+                    tag_obj, created = Tag.objects.get_or_create(tag=tag, project=project)
 
-            tags_input = project_form.cleaned_data.get('tags')
-            tags_list = [tag.strip() for tag in tags_input.split(',')]  # Split tags by commas
-            for tag in tags_list:
-                tag_obj, created = Tag.objects.get_or_create(tag=tag, project=project)
+                for form in formset:
+                    if form.cleaned_data:
+                        image = form.cleaned_data.get('image')
+                        img = Multi_Picture(project=project, image=image)
+                        img.save()
 
-            for form in formset:
-                if form.cleaned_data:
-                    image = form.cleaned_data.get('image')
-                    img = Multi_Picture(project=project, image=image)
-                    img.save()
-
-            return redirect('projects:project_detail', project_id=project.id)
+                return redirect('projects:project_detail', project_id=project.id)
+            else:
+                messages.error(request, "Check Data Again")
         else:
-            messages.error(request, "Check Data Again")
-    else:
-        # Create a ProjectForm instance with the existing project data
-        project_form = ProjectForm(instance=project)
-        
-
-        # Create an ImageFormSet with the existing project images
-        formset = ImageFormSet(queryset=Multi_Picture.objects.filter(project=project))
-    return render(request, 'projects/forms/edit.html',
-                  {'project_form': project_form, 'formset': formset, 'project': project})
+            project_form = ProjectForm(instance=project)
+            formset = ImageFormSet(queryset=Multi_Picture.objects.filter(project=project))
+            return render(request, 'projects/forms/edit.html',
+                        {'project_form': project_form, 'formset': formset, 'project': project})
+    return HttpResponse('error')
+            
+    
 
 
 
 @login_required
 def deleteProject(request, id):
-    project = Project.objects.get(id=id ,created_by=request.user)
-
-    if request.method == 'POST':
-        project.delete()
-        return redirect('projects:all_project')
-    return render(request,
-                'projects/forms/delete.html',
-                {'project': project})
+    project = Project.objects.get(id=id)
+    if project.created_by == request.user or request.user.is_superuser:
+        if request.method == 'POST':
+            project.delete()
+            return redirect('projects:all_project')
+        return render(request,
+                    'projects/forms/delete.html',
+                    {'project': project})
+    else:
+        return HttpResponse('error')
 
 
 @login_required
 def cancelProject(request, project_id):
-    project = get_object_or_404(Project, id=project_id, created_by=request.user)
+    project = get_object_or_404(Project, id=project_id)
  
     decimal_value = Decimal('0.25')
     donation_threshold = project.total_target * decimal_value
  
     total_donations = project.current_target 
     error_message = None
- 
-    if request.method == 'POST':
-        if total_donations is not None and total_donations >= donation_threshold:
+
+    if project.created_by == request.user or request.user.is_superuser:
+        if request.method == 'POST':
+            if total_donations is not None and total_donations >= donation_threshold:
+                return redirect('projects:project_detail', project_id=project_id)
+    
+            project.status = 'Canceled'
+            project.save()
             return redirect('projects:project_detail', project_id=project_id)
- 
-        project.status = 'Canceled'
-        project.save()
-        return redirect('projects:project_detail', project_id=project_id)
+    
+        elif total_donations is not None and total_donations >= donation_threshold:
+            error_message = "Cannot cancel the project. Donations exceed or equal the threshold."
    
-    elif total_donations is not None and total_donations >= donation_threshold:
-        error_message = "Cannot cancel the project. Donations exceed or equal the threshold."
-   
-    return render(request,
-                'projects/forms/cancel.html',
-                {'project': project ,'donation_threshold': donation_threshold, 'total_donations': total_donations, 'error_message':error_message})
+        return render(request,
+                    'projects/forms/cancel.html',
+                    {'project': project ,'donation_threshold': donation_threshold, 'total_donations': total_donations, 'error_message':error_message})
+    else:
+        return HttpResponse('error')
 
 
 @login_required
@@ -288,3 +304,12 @@ def add_comment_reply(request, comment_id):
         reply_form = CommentReplyForm()
 
     return render(request, 'projects/add_comment_reply.html', {'reply_form': reply_form, 'comment_id': comment_id})
+
+
+@login_required
+def is_featured(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.user.is_superuser:
+        project.is_featured = not project.is_featured
+        project.save()
+    return redirect(reverse_lazy('projects:project_detail',  kwargs={'project_id': project_id}))

@@ -12,7 +12,7 @@ class Project(models.Model):
         ('Completed', 'Completed'),
     ]
     title = models.CharField(max_length=200)
-    details = models.TextField(max_length=300)
+    details = models.TextField()
     total_target = models.DecimalField(max_digits=10, decimal_places=2, default=250000)
     start_time = models.DateTimeField(auto_now=False)
     end_time = models.DateTimeField(auto_now=False,default=None)

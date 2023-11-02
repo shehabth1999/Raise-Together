@@ -15,8 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from categories.views import CategoryDetails
+from categories.views import CategoryListView, CategoryDetailView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
+from django.contrib.auth.decorators import user_passes_test
 
 urlpatterns = [
-    path('<int:pk>', CategoryDetails.as_view(), name='category.detail')
+    path('', CategoryListView.as_view(), name='category.list'),
+    path('<int:category_id>/', CategoryDetailView.as_view(), name='category.detail'),
+    path('create/', CategoryCreateView.as_view(), name='category.create'),
+    path('edit/<int:category_id>/', CategoryUpdateView.as_view(), name='category.edit'),
+    path('delete/<int:category_id>/', CategoryDeleteView.as_view(), name='category.delete'),
 ]

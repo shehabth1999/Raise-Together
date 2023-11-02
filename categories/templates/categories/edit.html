@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}Edit
+Category{% endblock %} {% block container %}
+<div class="container p-5 my-5 shadow rounded-3 bg-white" style="width: 1000px">
+  <h1 class="pb-4 text-center">Edit {{category}}</h1>
+  <div class="row align-items-center justify-content-center">
+    <div class="col-10 d-flex justify-content-center">
+      <img src="{% static 'projects/images/edit_project.jpg' %}" height="300" />
+    </div>
+    <div class="col-10">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{form}}
+
+        <button type="submit" class="btn btn-outline-success text-center mt-3">
+          Save Changes
+        </button>
+        <hr />
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

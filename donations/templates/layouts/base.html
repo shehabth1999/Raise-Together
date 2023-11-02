@@ -80,6 +80,11 @@
               <li>
                 <a class="dropdown-item text-success" href="{% url 'projects:myprojects' %}">My Projects</a>
               </li>
+              {% if user.is_superuser %}
+              <li>
+                <a class="dropdown-item text-success" href="{% url 'category.list' %}">All Categories</a>
+              </li>
+              {%endif%}
               <li>
                 <a class="dropdown-item text-success" href="{% url 'logout' %}">Logout</a>
               </li>

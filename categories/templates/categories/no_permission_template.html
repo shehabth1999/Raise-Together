@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %} No permission {% endblock %} {% block container %}
+<div class="container p-5 my-5 shadow rounded-3 bg-white" style="width: 1000px">
+  <h1 class="pb-4 text-center">You don't have permission!</h1>
+  <div class="row align-items-center justify-content-center">
+    <div class="col-10 d-flex justify-content-center">
+      <img src="{% static 'projects/images/no-permission.jpeg' %}" height="300" />
+    </div>
+  </div>
+</div>
+{% endblock %}

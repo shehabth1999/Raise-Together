@@ -28,6 +28,7 @@ urlpatterns = [
     path('categories/',include('categories.urls')),
     path('projects/',include('projects.urls')),
     path('donations/',include('donations.urls')),
+    # path('adminpanel/',include('adminpanel.urls')),
     path('', index, name="homepage.index"),
     path('search/', views.search_projects, name='search_projects'),
 

@@ -24,12 +24,22 @@
                 <img src="{% static 'base/images/no_profile_image.png' %}" class="ms-1" width="30" height="30" style="border-radius: 50%;"/>
                 {% endif %}
                 {{project.created_by.first_name}} {{project.created_by.last_name}} is Owner this Project.
-                {% if user == project.created_by %}
-                <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0 mx-4"><i class="fa-regular fa-pen-to-square"></i></a>
+                {% if user == project.created_by or user.is_superuser %}
+                <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0 mx-2"><i class="fa-regular fa-pen-to-square"></i></a>
                
-                <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0 mx-4"><i class="fa-solid fa-x"></i></a>
+                <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0 mx-2"><i class="fa-solid fa-x"></i></a>
 
-                <a href="{% url 'projects:project.cancel' project.id%}" class="btn text-danger p-0 mx-4"><i class="fa-solid fa-ban"></i></a>
+                <a href="{% url 'projects:project.cancel' project.id%}" class="btn text-danger p-0 mx-2"><i class="fa-solid fa-ban"></i></a>
+                {% endif %}
+                {% if user.is_superuser %}
+                <a href="{% url 'projects:is_featured' project.id %}" class="btn text-success p-0 mx-2"> 
+                    {% if project.is_featured %}
+                    <i class="fa-regular fa-thumbs-down"></i>
+                    {% else %}
+                    <i class="fa-regular fa-thumbs-up"></i>
+                    {% endif %}
+
+                </i></a>
                 {% endif %}
                 
             </p>
@@ -45,7 +55,6 @@
                 {% endfor %}
             </p>
             <hr>
-
             <!-- Links -->
             <div class="links row justify-content-center my-4">
                 <a href="{% url 'donations.add' project.id %}" class="col-5 btn btn-success py-2 me-4 fs-5" style="border-radius: 15px;">Donate <i class="fa-solid fa-hand-holding-dollar"></i></a>
@@ -174,7 +183,7 @@
                 <p class="card-text"><small style="font-weight: 500;">Finish At: </small><small class="text-body-secondary">{{ project.end_time|date:'m - d - Y' }}</small></p>
                 <div class="d-flex justify-content-between align-items-end mt-4">
                   <a href="{% url 'donations.add' project.id %}" class="btn text-success p-0"><i class="fa-solid fa-hand-holding-dollar"></i></a>
-                  {% if user == project.created_by %}
+                  {% if user == project.created_by or user.is_superuser %}
                   <a href="{% url 'projects:projects.edit' project.id%}" class="btn text-success p-0"><i class="fa-regular fa-pen-to-square"></i></a>
                   <a href="{% url 'projects:project.delete' project.id%}" class="btn text-danger p-0"><i class="fa-solid fa-x"></i></a>
                   {% endif %}

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django_countries',
     'social_django',
+    # 'adminpanel.apps.AdminpanelConfig',
 ]
 
 MIDDLEWARE = [

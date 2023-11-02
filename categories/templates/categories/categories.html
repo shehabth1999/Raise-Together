@@ -1,0 +1,46 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}{{category.name}}{% endblock %}
+{% block container %}
+
+<div class="p-5 mx-4">
+<div >
+    <a href="{% url 'category.create' %}" class="text-success fs-4"><i class="fa-solid fa-square-plus"></i></a>
+  </div>
+  <table class="table my-5" id="dataTable" width="100%" cellspacing="0">
+    <tr class="bg-success text-white">
+      <th class="py-3">ID</th>  
+      <th class="py-3">Name</th>
+      <th class="py-3">Show</th>
+      <th class="py-3">Edit</th>
+      <th class="py-3">Delete</th>
+    </tr>
+ 
+    {% for category in categories %}
+      <tr>
+        <td>{{category.id}}</td>
+        <td>{{category.name}}</td>
+        <td>
+          <a href="{{category.get_show_url}}" class="btn text-success ">
+            <i class="fa-regular fa-eye"></i>
+          </a>
+        </td>
+        <td>
+          <a href="{% url 'category.edit' category.id %}" class="btn text-success ">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+        </td>
+        <td>
+          {% if not category.projects.all %}
+          <a href="{% url 'category.delete' category.id %}" class="btn text-danger">
+            <i class="fa-solid fa-minus"></i>
+          </a>
+          {% endif %}
+        </td>
+           
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+{% endblock %}

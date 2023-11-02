@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Delete {{category}}{% endblock %}
+{% block container %}
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+    <div class="row align-items-center">
+        <img src="{% static 'projects/images/delete_project.jpg' %}" class="col-6" width="300" />
+        <div class="col-6">
+            <p class="fw-bold mb-2">Are You Sure You Want To Delete This Category?  <span class="fw-normal">{{ project.title }}</span></p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-3 px-4 " >Delete</button>
+                <a href="/categories/" class="btn btn-outline-success mx-3 mt-3 px-4 " >Cancel</a>
+                <hr>
+            </form>
+            <div class="text-center" >
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

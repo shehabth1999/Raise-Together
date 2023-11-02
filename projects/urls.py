@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import allProjects, project_detail, add_comment, report_project, create_project, deleteProject,rate_project,myprojects,report_comment, edit_project,cancelProject,add_comment_reply
+from .views import allProjects, project_detail, add_comment, report_project, create_project, deleteProject,rate_project,myprojects,report_comment, edit_project,cancelProject,add_comment_reply,is_featured
 
 
 app_name = 'projects'
@@ -18,5 +18,6 @@ urlpatterns = [
     path('rate_project/<int:project_id>/', rate_project, name='project.rate'),
     path("myprojects/", myprojects, name="myprojects"),
     path("add_comment_reply/<int:comment_id>/", add_comment_reply, name='add_comment_reply'),
+    path("is_featured/<int:project_id>/", is_featured, name='is_featured'),
 ]
 

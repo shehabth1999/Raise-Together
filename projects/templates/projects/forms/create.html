@@ -91,7 +91,21 @@ Project{% endblock %} {% block container %}
             placeholder="Enter Multi Tags separated by commas like dog , cat , etc.."
           />
         </div>
+        {% if user.is_superuser%}
 
+        <div class="form-group">
+          <label for="is_featured">Is Featured</label>
+          
+          <input
+            type="checkbox"
+            class="form-control"
+            name="is_featured"
+            id="is_featured"
+          />
+          
+        </div>
+
+        {%endif%}
         <button type="submit" class="btn btn-outline-success mt-3">
           Submit
         </button>

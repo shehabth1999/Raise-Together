@@ -63,6 +63,17 @@
                         {{ form.as_table }}
                     {% endfor %}
                 </div>
+                {% if user.is_superuser%}
+                
+
+        <div class="form-group">
+          <label for="is_featured">Is Featured</label>
+          {{project_form.is_featured}}
+        
+          
+        </div>
+
+        {%endif%}
         
                 <button type="submit" class="btn btn-outline-success text-center mt-3">Save Changes</button>
                 <hr>
