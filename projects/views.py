@@ -59,7 +59,7 @@ def create_project(request):
         formset = ImageFormSet(request.POST, request.FILES, queryset=Multi_Picture.objects.none())
 
         if project_form.is_valid() and formset.is_valid():
-            if request.POST["is_featured"]:
+            if request.POST.get('is_featured'):
                 if not request.user.is_superuser:
                     messages.error(request, "You don't have permission")
                     return render(request, 'projects/forms/create.html', {'project_form': project_form, 'formset': formset})
