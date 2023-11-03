@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} All Featured Projects {% endblock %}
+{% block container %}
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+  <div class="header">
+    <h4 class="text-success text-uppercase">Reports</h4>
+    <p class="text-secondary">All Featured Projects</p>
+  </div>
+  {% if featured_projects %}
+  <table class="table">
+    <thead class="table-light table-hover">
+      <tr>
+        <th class="text-uppercase">Project Name</th>
+        <th class="text-uppercase">Project Owner</th>
+        <th class="text-uppercase">Remove From Featured</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for featured_project in featured_projects %}
+      <tr>
+        <td>{{featured_project.title}}</td>
+        <td>{{featured_project.created_by}}</td>
+        <td>
+          <a href="{% url 'projects:is_featured' featured_project.id %}" class="btn text-success p-0 mx-2"> 
+            <i class="fa-regular fa-thumbs-down"></i>
+        </i></a>
+        </td>
+      </tr>
+      {% endfor %}
+     
+    </tbody>
+  </table>
+  {% else %}
+    <h5 class="text-center">No Reports Available.</h5>
+  {% endif %}
+</div>
+{% endblock %}

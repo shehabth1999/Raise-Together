@@ -330,3 +330,13 @@ def comments_reports(request):
         return render(request, 'projects/comments_reports.html', {'reports': reports})
     else:
          return render(request, 'categories/no_permission_template.html')
+    
+
+@login_required
+def all_featured_projects(request):
+    if request.user.is_superuser:
+        projects = Project.objects.all()
+        featured_projects = filter(lambda project: project.is_featured, projects)
+        return render(request, 'projects/all_featured_projects.html', {'featured_projects': featured_projects})
+    else:
+         return render(request, 'categories/no_permission_template.html')
