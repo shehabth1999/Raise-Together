@@ -60,6 +60,7 @@ def create_project(request):
 
         if project_form.is_valid() and formset.is_valid():
             if request.POST.get('is_featured'):
+            if request.POST.get('is_featured'):
                 if not request.user.is_superuser:
                     messages.error(request, "You don't have permission")
                     return render(request, 'projects/forms/create.html', {'project_form': project_form, 'formset': formset})
@@ -313,20 +314,3 @@ def is_featured(request, project_id):
         project.is_featured = not project.is_featured
         project.save()
     return redirect(reverse_lazy('projects:project_detail',  kwargs={'project_id': project_id}))
-
-@login_required
-def projects_reports(request):
-    if request.user.is_superuser:
-        reports = ProjectReport.objects.all()
-        return render(request, 'projects/projects_reports.html', {'reports': reports})
-    else:
-         return render(request, 'categories/no_permission_template.html')
-    
-
-@login_required
-def comments_reports(request):
-    if request.user.is_superuser:
-        reports = CommentReport.objects.all()
-        return render(request, 'projects/comments_reports.html', {'reports': reports})
-    else:
-         return render(request, 'categories/no_permission_template.html')
