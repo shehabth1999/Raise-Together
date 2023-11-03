@@ -3,7 +3,7 @@
 {% block title %}{{category.name}}{% endblock %}
 {% block container %}
   <div class="container py-5">
-    <h2>{{category.name}}</h2>
+    <h2 class="pb-2">{{category.name}}</h2>
     <div class="row row-cols-1 row-cols-md-4 justify-content-center g-4">
     {% for project in category.projects.all%}
       <div class="col">

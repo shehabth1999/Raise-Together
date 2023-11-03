@@ -16,6 +16,7 @@
         <th class="text-uppercase">Reason</th>
         <th class="text-uppercase">Comment</th>
         <th class="text-uppercase">Commenter</th>
+        <th class="text-uppercase">Project</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
         <td>{{report.report_comment}}</td>
         <td>{{report.comment.content}}</td>
         <td>{{report.comment.user.first_name}} {{report.comment.user.last_name}}</td>
+        <td>{{report.comment.project.title}}</td>
       </tr>
       {% endfor %}
      
