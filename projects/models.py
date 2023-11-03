@@ -81,6 +81,7 @@ class ProjectReport(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     report_reason = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Report for {self.project.title} by {self.user.username}"
@@ -100,6 +101,7 @@ class CommentReport(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE,default=None)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     report_comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Comment Report for {self.comment}"

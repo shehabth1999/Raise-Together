@@ -84,6 +84,12 @@
               <li>
                 <a class="dropdown-item text-success" href="{% url 'category.list' %}">All Categories</a>
               </li>
+              <li>
+                <a class="dropdown-item text-success" href="{% url 'projects:projects.reports' %}">All Projects Reports</a>
+              </li>
+              <li>
+                <a class="dropdown-item text-success" href="{% url 'projects:comments.reports' %}">All Comments Reports</a>
+              </li>
               {%endif%}
               <li>
                 <a class="dropdown-item text-success" href="{% url 'logout' %}">Logout</a>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from django.urls import reverse_lazy
 from .models import Project, Multi_Picture, Comment, CommentReport, Rating, Tag
-from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm, CommentReplyForm
+from .forms import MultiPictureForm, ProjectForm, ProjectReportForm, RatingForm, CommentReplyForm, ProjectReport, CommentReport
 from django.db.models import Count, Sum
 from django.forms import modelformset_factory
 from decimal import Decimal
@@ -313,3 +313,20 @@ def is_featured(request, project_id):
         project.is_featured = not project.is_featured
         project.save()
     return redirect(reverse_lazy('projects:project_detail',  kwargs={'project_id': project_id}))
+
+@login_required
+def projects_reports(request):
+    if request.user.is_superuser:
+        reports = ProjectReport.objects.all()
+        return render(request, 'projects/projects_reports.html', {'reports': reports})
+    else:
+         return render(request, 'categories/no_permission_template.html')
+    
+
+@login_required
+def comments_reports(request):
+    if request.user.is_superuser:
+        reports = CommentReport.objects.all()
+        return render(request, 'projects/comments_reports.html', {'reports': reports})
+    else:
+         return render(request, 'categories/no_permission_template.html')

@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} Donations History {% endblock %}
+{% block container %}
+<div class="container p-5 my-5  shadow rounded-3 bg-white" style="width: 1000px;">
+  <div class="header">
+    <h4 class="text-success text-uppercase">Reports</h4>
+    <p class="text-secondary">All Project Reports</p>
+  </div>
+  {% if reports %}
+  <table class="table">
+    <thead class="table-light table-hover">
+      <tr>
+        <th class="text-uppercase">Date</th>
+        <th class="text-uppercase">Reporter</th>
+        <th class="text-uppercase">Reason</th>
+        <th class="text-uppercase">Project</th>
+        <th class="text-uppercase">Project Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for report in reports %}
+      <tr>
+        <td>{{ report.created_at|date:"n - d - Y, g:i a" }}</td>
+        <td>{{report.user.first_name}} {{report.user.last_name}}</td>
+        <td>{{report.report_reason}}</td>
+        <td>{{report.project.title|slice:":20"}}</td>
+        <td>{{report.project.created_by.first_name}} {{report.project.created_by.last_name}}</td>
+      </tr>
+      {% endfor %}
+     
+    </tbody>
+  </table>
+  {% else %}
+    <h5 class="text-center">No Reports Available.</h5>
+  {% endif %}
+</div>
+{% endblock %}
