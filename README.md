@@ -1,68 +1,65 @@
-# Raise-Together
-Raise-Together is the practice of funding a project or venture by raising small amounts of money from a large number of people, typically via the Internet
 
-The web app should include the following features: 
-1 - Authentication System: 
-	- Registration: OKKKKKKKKKKKKKKKKKK
-		- First name ok
-		- Last name ok
-		- Email ok
-		- Password ok
-		- Confirm password ok
-		- Mobile phone [validated against Egyptian phone numbers] ok
-		- Profile Picture ok
-		- Activation Email after registration ok
-		- Once the user registers he should receive an email with the activation link. ok
-		- The user shouldn’t be able to login without activation. ok			
-		- The activation link should expire after 24 hours. ok
+Raise-Together Web Application Features:
 
-	- Login 
-		- The user should be able to log in after activation using his email and password -----------------------------------------------------
-		- Bonus: Allow users to log in with a Facebook account --------------------------------------------------------------------------------
-		- Forgot Password (Bonus) -------------------------------------------------------------------------------------------------------------
-		- The user should have the option to reset his password if he forgot it to receive a password reset link to his email -----------------
+1 - Authentication System:
 
-	- User Profile, The user can view his profile which: 
-		- He can view his profile ok
-		- He can view his projects ------------------------------------------------------------------------------------------------------------
-		- He can view his donations -----------------------------------------------------------------------------------------------------------
-		- He can edit all his data except for the email ---------------------------------------------------------------------------------------
-		- He can have extra optional info other than the info he added while registration (Birthdate, facebook profile, country) --------------
-		- User can delete his account (Note that there must be a confirmation message before deleting) ok
-		- Bonus: The user must enter his password to delete his account -----------------------------------------------------------------------
- 
+Registration:
 
-2 - Projects: 
-	- The user can create a project fundraising campaign which contains: 
-		- Title ok
-		- Details ok
-		- Category (from a list of categories added previously by admins) ok
-		- Multiple pictures ok
-		- Total target (i.e 250000 EGP) ok
-		- Multiple Tags ok
-		- Set start/end time for the campaign ok
-		- Users can view any project and donate to the total target 
-		- Users can add comments on the projects ok 
-		- Bonus: Comments can have replies 
-		- Users can report inappropriate projects ok 
-		- Users can report inappropriate comments ok -------------------
-		- Users can rate the projects ok 
-		- Project creator can cancel the project if the donations are less than 25% of the target -----------------------
-		- The project page should show the overall average rating of the project ok
-		- The project page should show the project pictures in a slider ok
-		- The project page should show 4 other similar projects based on project tags ok
+First name
+Last name
+Email
+Password
+Confirm password
+Mobile phone (validated against Egyptian phone numbers)
+Profile Picture
+Activation Email after registration
+Once the user registers, an activation email with a unique link will be sent.
+Users cannot log in without activating their accounts.
+Activation link expires after 24 hours.
+Login:
 
+Users can log in after activation using their email and password.
+Bonus: Allow users to log in with a Facebook account.
+Forgot Password (Bonus):
+Users can reset their password by receiving a password reset link via email.
+User Profile:
 
-3 - The homepage should contain the following: 
-		- A slider to show the highest five rated running projects to encourage users to donate ok
-		- List of the latest 5 projects ok
-		- List of the latest 5 featured projects (which are selected by the admin) ok
-		- A list of the categories. Users can open each category to view its projects ok
-		- Search bar that enables users to search projects by title or tag ok
+View profile information.
+View created projects.
+View donation history.
+Edit profile information (except for email).
+Add optional information (birthdate, Facebook profile, country).
+Delete account with password confirmation.
+Bonus: Enter password to delete the account.
+2 - Projects:
 
+Create a project fundraising campaign with:
+Title
+Details
+Category (from a predefined list)
+Multiple pictures
+Total target amount
+Multiple tags
+Set start/end time for the campaign
+Users can:
+View and donate to any project.
+Add comments on projects.
+Bonus: Comments can have replies.
+Report inappropriate projects or comments.
+Rate projects.
+Cancel a project if donations are less than 25% of the target.
+Project page displays:
+Overall average rating.
+Project pictures in a slider.
+Four similar projects based on project tags.
+3 - Homepage:
 
-Similar Projects to get some inspiration :) 
-https://www.gofundme.com
-https://www.kickstarter.com
-https://www.crowdfunding.com 
+Features:
+Slider showcasing the highest five rated running projects.
+List of the latest five projects.
+List of the latest five featured projects (selected by admins).
+Categories list with the ability to view projects in each category.
+Search bar for users to search projects by title or tag.
+Inspiration for the Project:
 
+Drawing inspiration from popular crowdfunding platforms such as GoFundMe, Kickstarter, and Crowdfunding.com, the Raise-Together web application aims to provide users with a seamless and secure platform to create and contribute to fundraising campaigns. The robust authentication system ensures user security, while the project features offer a comprehensive and engaging experience for both creators and donors. The dynamic homepage encourages user interaction and highlights the most impactful and relevant projects.
